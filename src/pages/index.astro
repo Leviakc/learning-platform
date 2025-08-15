@@ -1,11 +1,89 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { Image } from "astro:assets";
+import Layout from "../layouts/Layout.astro";
+import binaryBrain from "../assets/images/binary-logo.png";
+import Card from "../components/ui/Card.astro";
+import CardHeader from "../components/ui/CardHeader.astro";
+import CardTitle from "../components/ui/CardTitle.astro";
+import CardDescription from "../components/ui/CardDescription.astro";
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Welcome to Astro">
+  <main
+    class="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 md:p-8"
+  >
+    <div class="absolute top-4 right-4">
+      <!-- <ModeToggle /> -->
+    </div>
+    <header class="mb-12 text-center">
+      <div class="mb-4 flex items-center justify-center gap-4">
+        <Image src={binaryBrain} alt={"Blue brain"} class="h-24 w-24" />
+        <h1 class="font-headline text-primary text-6xl font-bold">
+          Binary Brains
+        </h1>
+      </div>
+      <p class="text-muted-foreground mt-2 text-xl">
+        Choose your learning path
+      </p>
+    </header>
+
+    <div class="grid w-full max-w-4xl gap-8 md:grid-cols-2">
+      <a href="/python" class="block">
+        <Card
+          class="h-full transform cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <CardHeader class="text-center">
+            <div class="mb-4 flex justify-center">
+              <!-- Code Icon -->
+              <svg
+                class="text-accent h-12 w-12"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+              </svg>
+            </div>
+            <CardTitle class="font-headline text-3xl"> Learn Python </CardTitle>
+            <CardDescription class="text-base">
+              Master Python from the ground up with our interactive lessons and
+              exercises.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </a>
+      <a href="/sql" class="block">
+        <Card
+          class="h-full transform cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <CardHeader class="text-center">
+            <div class="mb-4 flex justify-center">
+              <!-- Database Icon -->
+              <svg
+                class="text-accent h-12 w-12"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4"
+                ></path>
+              </svg>
+            </div>
+            <CardTitle class="font-headline text-3xl">Learn SQL</CardTitle>
+            <CardDescription class="text-base">
+              Unlock the power of databases. Coming soon!
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </a>
+    </div>
+  </main>
 </Layout>

@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+
+:root {
+  --background: 212 33% 8%; /* (Very dark blue, almost black) */
+  --foreground: 212 92% 85%; /* (Light, desaturated cyan for text) */
+  --card: 222 47% 11%; /* (Dark blue for card backgrounds) */
+  --primary: 212 92% 85%; /* (Light, desaturated cyan for primary elements like titles and buttons) */
+  --primary-foreground: 212 33% 8%; /* (Dark blue for text on primary elements) */
+  --secondary: 224 30% 18%; /* (Slightly lighter dark blue for secondary elements) */
+  --accent: 197 92% 60%; /* (Bright cyan for accents, like icons) */
+  --border: 215 14% 34%; /* (Grayish blue for borders) */
+  --input: 215 14% 34%; /* (Grayish blue for input fields) */
+  --ring: 197 92% 60%; /* (Bright cyan for focus rings) */
+
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+}
+
+@theme {
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-card: hsl(var(--card));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-accent: hsl(var(--accent));
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  /* Some shadcn styles*/
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --font-body: "PT Sans", sans-serif;
+  --font-headline: "PT Sans", sans-serif;
+  --font-code: "monospace";
+}

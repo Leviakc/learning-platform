@@ -1,0 +1,45 @@
+---
+import {
+  getButtonClasses,
+  type ButtonVariant,
+  type ButtonSize,
+} from "../../lib/button-variants";
+
+export interface Props {
+  variant?: ButtonVariant;
+  size?: ButtonSize;
+  class?: string;
+  type?: "button" | "submit" | "reset";
+  disabled?: boolean;
+  href?: string;
+  target?: string;
+  rel?: string;
+}
+
+const {
+  variant = "default",
+  size = "default",
+  class: className = "",
+  type = "button",
+  disabled = false,
+  href,
+  target,
+  rel,
+  ...rest
+} = Astro.props;
+
+const classes = getButtonClasses(variant, size, className);
+const Tag = href ? "a" : "button";
+---
+
+{
+  Tag === "a" ? (
+    <a href={href} target={target} rel={rel} class={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} disabled={disabled} class={classes} {...rest}>
+      <slot />
+    </button>
+  )
+}

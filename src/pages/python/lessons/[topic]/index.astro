@@ -1,0 +1,48 @@
+---
+import { render } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const python = await getCollection("python");
+
+  const topics = [
+    ...new Set(
+      python
+        .map((entry) => entry.id.split("/")[0])
+        .filter((topic) => topic !== "lesson.md" && topic !== "exercise.md"),
+    ),
+  ];
+
+  return topics.map((topic) => ({
+    params: { topic },
+    props: { topic },
+  }));
+}
+
+const { topic } = Astro.props;
+const lesson = await getEntry("python", `${topic}/lesson`);
+
+const { Content } = lesson?.data.type === "lesson" ? await render(lesson) : {};
+---
+
+<Layout>
+  <div>
+    {
+      lesson && lesson.data.type === "lesson" && (
+        <div>
+          <h1>{lesson.data.title}</h1>
+          <p>Difficulty: {lesson.data.difficulty}</p>
+          <p>{lesson.data.description}</p>
+
+          {Content && <Content />}
+          <nav>
+            <a href={`/python/lessons/${topic}/exercise`}>
+              Next: Practice Exercise →
+            </a>
+          </nav>
+        </div>
+      )
+    }
+  </div>
+</Layout>

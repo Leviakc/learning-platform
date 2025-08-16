@@ -1,0 +1,61 @@
+import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
+
+const exerciseSchema = z.object({
+  type: z.literal("exercise"),
+  title: z.string().optional(),
+  // comment: z.union([z.string(), z.array(z.string())]),
+  tests: z.array(z.any()), // We'll define the test structure later
+});
+
+const lessonSchema = z.object({
+  type: z.literal("lesson"),
+  title: z.string(),
+  description: z.string(),
+  difficulty: z.enum(["beginner", "intermediate", "advanced"]),
+  // This links to the corresponding exercise
+  // exerciseSlug: z.string(),
+});
+
+const createCollections = (language: "python" | "sql") => {
+  const collection = defineCollection({
+    loader: glob({
+      pattern: "**/{lesson,exercise}.md",
+      // base: `./${language}/`,
+      base: `./src/content/${language}/`,
+    }),
+    schema: z.union([
+      lessonSchema.extend({
+        // language: z.literal(language),
+      }),
+      exerciseSchema.extend({
+        // language: z.literal(language),
+      }),
+    ]),
+
+    // exerciseSchema.extend({
+    //   language: z.literal(language),
+    // }),
+  });
+
+  // const lessonCollection = defineCollection({
+  //   loader: glob({ pattern: "**/*.md", base: `./${language}/lessons/` }),
+  //   schema: lessonSchema.extend({
+  //     language: z.literal(language),
+  //   }),
+  // });
+
+  return { collection };
+};
+
+const { collection: pythonCollection } = createCollections("python");
+const { collection: sqlCollection } = createCollections("sql");
+// const { exerciseCollection: pythonExercises, lessonCollection: pythonLessons } =
+//   createCollections("python");
+// const { exerciseCollection: sqlExercises, lessonCollection: sqlLessons } =
+//   createCollections("sql");
+
+export const collections = {
+  python: pythonCollection,
+  sql: sqlCollection,
+};

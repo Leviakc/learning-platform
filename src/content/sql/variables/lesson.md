@@ -1,0 +1,29 @@
+---
+type: "lesson"
+title: "Variables & Data Types"
+description: "Learn the basics of storing information in Python variables and the different types of data you can use."
+difficulty: "beginner"
+---
+
+A **variable** is like a labeled box where you can store information. You create a variable the moment you first assign a value to it.
+
+In Python, data comes in several types:
+
+- **String (str):** Used for text. You create them with quotes.
+  `"Hello, World!"`
+- **Integer (int):** Used for whole numbers.
+  `10`, `-5`, `123`
+- **Float (float):** Used for numbers with a decimal point.
+  `3.14`, `99.9`
+
+Here's how you create a variable and assign a value to it:
+
+```python
+# Yes
+
+name = "Alice"  # A string variable
+age = 30       # An integer variable
+
+# Yes
+age = 30       # An integer variable
+```

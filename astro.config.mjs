@@ -1,6 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import path from "node:path";
+// import path from "node:path";
 import tailwindcss from "@tailwindcss/vite";
 import solidJs from "@astrojs/solid-js";
 import icon from "astro-icon";
@@ -9,11 +9,11 @@ import icon from "astro-icon";
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "./src"),
-      },
-    },
+    // resolve: {
+    //   alias: {
+    //     "@": path.resolve(__dirname, "./src"),
+    //   },
+    // },
   },
 
   integrations: [solidJs(), icon()],

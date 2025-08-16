@@ -4,8 +4,7 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "paths": {
-      "@/*": ["./src/*"],
-      "@/components/*": ["./src/components/*"]
+      "@/*": ["./src/*"]
     },
     "jsx": "preserve",
     "jsxImportSource": "solid-js"

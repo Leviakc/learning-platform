@@ -12,6 +12,20 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-
-  integrations: [solidJs(), icon(), expressiveCode()],
+  integrations: [
+    solidJs(),
+    icon(),
+    expressiveCode({
+      frames: {
+        showCopyToClipboardButton: false,
+        extractFileNameFromCode: true,
+      },
+      themes: [
+        "catppuccin-macchiato",
+        "material-theme-palenight",
+        "poimandres",
+      ],
+      removeUnusedThemes: false,
+    }),
+  ],
 });

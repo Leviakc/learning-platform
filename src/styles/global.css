@@ -13,10 +13,12 @@
   --border: 215 14% 34%; /* (Grayish blue for borders) */
   --input: 215 14% 34%; /* (Grayish blue for input fields) */
   --ring: 197 92% 60%; /* (Bright cyan for focus rings) */
-
-  --muted: 240 4.8% 95.9%;
-  /* --muted-foreground: 240 3.8% 46.1%; */
+  --muted: 224 30% 18%;
   --muted-foreground: 213 10% 52%;
+
+  /* --muted: 240 4.8% 95.9%; */
+  /* --muted-foreground: 240 3.8% 46.1%; */
+  /* --muted-foreground: 213 10% 52%; */
 }
 
 @theme {

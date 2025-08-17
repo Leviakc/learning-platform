@@ -1,17 +1,20 @@
 ---
 import { render } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
+import LessonLayout from "@/layouts/LessonLayout.astro";
+import type { Lesson } from "@/types/lesson";
 
 export async function getStaticPaths() {
   const python = await getCollection("python");
-  
-  const topics = [...new Set(
-    python
-      .map(entry => entry.id.split('/')[0])
-      .filter(topic => topic !== 'lesson.md' && topic !== 'exercise.md')
-  )];
-  
+
+  const topics = [
+    ...new Set(
+      python
+        .map((entry) => entry.id.split("/")[0])
+        .filter((topic) => topic !== "lesson.md" && topic !== "exercise.md"),
+    ),
+  ];
+
   return topics.map((topic) => ({
     params: { topic },
     props: { topic },
@@ -21,31 +24,33 @@ export async function getStaticPaths() {
 const { topic } = Astro.props;
 
 const exercise = await getEntry("python", `${topic}/exercise`);
-const { Content: ExerciseContent } = exercise ? await render(exercise) : { Content: null };
-//
-// let Content = null
-// if (exercise?.data.type === "exercise") {
-//   const rendered = await render(exercise);
-//   Content = rendered.Content;
-// }
+const lesson = await getEntry("python", `${topic}/lesson`);
 
+const { Content: ExerciseContent } = exercise
+  ? await render(exercise)
+  : { Content: null };
+
+const data = lesson?.data as Lesson;
 ---
-<Layout>
-<div>
-  {exercise && (
-    <div>
-      <h1>Practice: {topic}</h1>
-      
-    {ExerciseContent && <ExerciseContent />}
-      
-      <nav>
-        <a href={`/python/lessons/${topic}`}>
-          ← Back to Lesson
-        </a>
-        <!-- Add link to next topic here -->
-      </nav>
-    </div>
-  )}
-</div>
 
-</Layout>
+<LessonLayout
+  title={data.title}
+  description={data.description}
+  quiz={data.quiz}
+>
+  {
+    exercise && (
+      <div>
+        <h1>Practice: {topic}</h1>
+
+        {ExerciseContent && <ExerciseContent />}
+      </div>
+    )
+  }
+  <Fragment slot="footer">
+    <h3 class="mt-6 mb-2 text-lg font-semibold">Footer button</h3>
+    <nav>
+      <a href={`/python/lessons/${topic}`}>← Back to Lesson</a>
+    </nav>
+  </Fragment>
+</LessonLayout>

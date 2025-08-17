@@ -13,6 +13,14 @@ export const lessonSchema = z.object({
   title: z.string(),
   description: z.string(),
   difficulty: z.enum(["beginner", "intermediate", "advanced"]),
+  quiz: z
+    .array(
+      z.object({
+        question: z.string(),
+        answers: z.array(z.string()),
+      }),
+    )
+    .optional(),
   // This links to the corresponding exercise
   // exerciseSlug: z.string(),
 });

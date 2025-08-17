@@ -3,6 +3,14 @@ type: "lesson"
 title: "Variables & Data Types"
 description: "Learn the basics of storing information in Python variables and the different types of data you can use."
 difficulty: "beginner"
+quiz:
+  - question: "What is the data type of the value assigned to the 'age' variable below?\n age = 30"
+    answers:
+      - "int"
+      - "integer"
+  - question: "What function is used to display text in Python?"
+    answers:
+      - "print"
 ---
 
 A **variable** is like a labeled box where you can store information. You create a variable the moment you first assign a value to it.

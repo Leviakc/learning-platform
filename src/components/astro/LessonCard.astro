@@ -1,17 +1,15 @@
 ---
-import Card from "./ui/card/Card.astro";
-import CardHeader from "./ui/card/CardHeader.astro";
-import CardTitle from "./ui/card/CardTitle.astro";
-import CardDescription from "./ui/card/CardDescription.astro";
-import CardContent from "./ui/card/CardContent.astro";
-import CardFooter from "./ui/card/CardFooter.astro";
-import Button from "./ui/button/Button.astro";
-import Badge from "./ui/badge/Badge.astro";
-import type { lessonSchema } from "@/content/config";
-import type { z } from "astro:content";
+import Card from "../ui/card/Card.astro";
+import CardHeader from "../ui/card/CardHeader.astro";
+import CardTitle from "../ui/card/CardTitle.astro";
+import CardDescription from "../ui/card/CardDescription.astro";
+import CardContent from "../ui/card/CardContent.astro";
+import CardFooter from "../ui/card/CardFooter.astro";
+import Button from "../ui/button/Button.astro";
+import Badge from "../ui/badge/Badge.astro";
 import { Icon } from "astro-icon/components";
+import type { Lesson } from "@/types/lesson";
 
-type Lesson = z.infer<typeof lessonSchema>;
 export interface Props extends Lesson {
   id: string;
   isCompleted?: boolean;
@@ -21,19 +19,11 @@ const { isCompleted = false, ...lesson } = Astro.props;
 const id = lesson.id.split("/")[0];
 const difficulty = lesson.difficulty;
 
-// Difficulty icons as SVG
 const difficultyIcon: Record<typeof difficulty, string> = {
   beginner: "circle",
   intermediate: "square",
   advanced: "flame",
 };
-
-// intermediate: `<svg class="w-4 h-4 mr-2 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//   <rect width="18" height="18" x="3" y="3" rx="2"></rect>
-// </svg>`,
-// advanced: `<svg class="w-4 h-4 mr-2 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-//   <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"></path>
-// </svg>`,
 
 const cardClasses = isCompleted
   ? "flex flex-col transition-all duration-300 transform hover:-translate-y-1 w-full bg-secondary border-primary/20"

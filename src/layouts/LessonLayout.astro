@@ -1,0 +1,33 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import HeaderLesson from "@/components/astro/HeaderLesson.astro";
+import Card from "@/components/ui/card/Card.astro";
+import { Tab } from "@/components/solid/Tab.tsx";
+
+interface Props {
+  title: string;
+  description: string;
+  quiz?: { question: string; answers: string[] }[];
+}
+const { title, description } = Astro.props as Props;
+---
+
+<Layout title={title} description={description}>
+  <main class="container mx-auto max-w-4xl p-4 md:p-8">
+    <HeaderLesson title={title} description={description} />
+    <Card>
+      <div class="p-0">
+        <Tab client:only="solid" />
+
+        <div class="p-6">
+          <div class="prose dark:prose-invert max-w-none">
+            <slot />
+          </div>
+
+          <slot name="quiz" />
+        </div>
+      </div>
+    </Card>
+    <slot name="footer" />
+  </main>
+</Layout>

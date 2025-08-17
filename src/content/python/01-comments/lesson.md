@@ -19,11 +19,13 @@ Estos son un par de funcionalidades para las cuales sirve comentar nuestro códi
 
 Hola Mundo
 
-```python
+```python frame="code" title="python.py"
 '''
 Este es un comentario largo que puede abarcar grandes partes de nuestro codigo
+
 '''
 print("Este es otro tipo de comentario")
+x = 12
 ```
 
 Este es otro tipo de comentario

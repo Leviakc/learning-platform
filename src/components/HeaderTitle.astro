@@ -1,0 +1,28 @@
+---
+import { Image } from "astro:assets";
+
+interface Props {
+  title?: string;
+  subtitle?: string;
+  src?: ImageMetadata;
+}
+const {
+  title = "Binary Learns",
+  subtitle = "Choose the best option",
+  src,
+} = Astro.props;
+---
+
+<div class="mb-4 flex items-center justify-center gap-4">
+  {
+    src && (
+      <Image src={src} alt={"Blue brain"} class="h-16 w-16 md:h-24 md:w-24" />
+    )
+  }
+  <h1 class="font-headline text-primary text-3xl font-bold md:text-6xl">
+    {title}
+  </h1>
+</div>
+<p class="text-muted-foreground mt-2 text-xl">
+  {subtitle}
+</p>

@@ -1,5 +1,14 @@
 ---
 import "@/styles/global.css";
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const {
+  title = "Binary Learns",
+  description = "Learn Python and track your progress.",
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -18,10 +27,9 @@ import "@/styles/global.css";
       href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap"
       rel="stylesheet"
     />
-
     <meta name="generator" content={Astro.generator} />
-    <title>Binary learns</title>
-    <meta name="description" content="Learn Python and track your progress." />
+    <title>{title}</title>
+    <meta name="description" content={description} />
   </head>
   <body class="bg-background text-foreground font-body antialiased">
     <slot />

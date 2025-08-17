@@ -1,31 +1,27 @@
 ---
-import { Image } from "astro:assets";
+import { Icon } from "astro-icon/components";
 import Layout from "@/layouts/Layout.astro";
-import binaryBrain from "@/assets/images/binary-logo.png";
 import Card from "@/components/ui/card/Card.astro";
 import CardHeader from "@/components/ui/card/CardHeader.astro";
 import CardTitle from "@/components/ui/card/CardTitle.astro";
 import CardDescription from "@/components/ui/card/CardDescription.astro";
-import { Icon } from "astro-icon/components";
+import HeaderTitle from "@/components/HeaderTitle.astro";
+import binaryBrain from "@/assets/images/binary-logo.png";
 ---
 
-<Layout title="Welcome to Astro">
+<Layout title="Binary Learns - Home">
   <main
-    class="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 md:p-8"
+    class="container mx-auto flex h-dvh flex-col items-center gap-16 p-4 md:min-h-screen md:justify-center md:gap-1 md:p-8"
   >
     <div class="absolute top-4 right-4">
       <!-- <ModeToggle /> -->
     </div>
-    <header class="mb-12 text-center">
-      <div class="mb-4 flex items-center justify-center gap-4">
-        <Image src={binaryBrain} alt={"Blue brain"} class="h-24 w-24" />
-        <h1 class="font-headline text-primary text-6xl font-bold">
-          Binary Brains
-        </h1>
-      </div>
-      <p class="text-muted-foreground mt-2 text-xl">
-        Choose your learning path
-      </p>
+    <header class="mt-10 text-center md:mt-0 md:mb-12">
+      <HeaderTitle
+        title="Binary Learns"
+        subtitle="Choose your learning path"
+        src={binaryBrain}
+      />
     </header>
 
     <div class="grid w-full max-w-4xl gap-8 md:grid-cols-2">

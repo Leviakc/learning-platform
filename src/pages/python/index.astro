@@ -8,13 +8,15 @@ import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
 import { getCollection } from "astro:content";
 import LessonCard from "@/components/LessonCard.astro";
+import HeaderTitle from "@/components/HeaderTitle.astro";
+import binaryBrain from "@/assets/images/binary-logo.png";
 
 const pythonLessons = await getCollection("python", (entry) =>
   entry.id.endsWith("/lesson"),
 );
 ---
 
-<Layout title="PyProgress - Learn Python">
+<Layout title="Binary Learns - Learn Python">
   <main class="container mx-auto p-4 md:p-8">
     <div class="mb-4 flex items-center justify-between">
       <Button variant="outline" href="/">
@@ -25,16 +27,16 @@ const pythonLessons = await getCollection("python", (entry) =>
     </div>
 
     <header class="mb-12 text-center">
-      <h1 class="font-headline text-primary text-5xl font-bold">PyProgress</h1>
-      <p class="text-muted-foreground mt-2 text-lg">
-        Learn Python and track your progress
-      </p>
+      <HeaderTitle
+        title="Binary Learns"
+        subtitle="Learn Python and track your progress"
+      />
     </header>
 
     <Card class="bg-card/80 mb-8 backdrop-blur-sm">
       <CardHeader>
         <CardTitle class="font-headline text-2xl"
-          >Welcome to PyProgress!</CardTitle
+          >Welcome to Binary Learns!</CardTitle
         >
         <CardDescription
           >Select a lesson below to start learning Python.</CardDescription

@@ -1,5 +1,55 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
+import Card from "@/components/ui/card/Card.astro";
+import CardHeader from "@/components/ui/card/CardHeader.astro";
+import CardTitle from "@/components/ui/card/CardTitle.astro";
+import CardDescription from "@/components/ui/card/CardDescription.astro";
+import Button from "@/components/ui/button/Button.astro";
+import { Icon } from "astro-icon/components";
+import { getCollection } from "astro:content";
+import LessonCard from "@/components/LessonCard.astro";
+
+const pythonLessons = await getCollection("python", (entry) =>
+  entry.id.endsWith("/lesson"),
+);
 ---
 
-<Layout title="Welcome to Astro"> Hello there </Layout>
+<Layout title="PyProgress - Learn Python">
+  <main class="container mx-auto p-4 md:p-8">
+    <div class="mb-4 flex items-center justify-between">
+      <Button variant="outline" href="/">
+        <Icon name="arrow-left" class={"mr-2"} />
+        Back to Home
+      </Button>
+      <div class="absolute top-4 right-4"></div>
+    </div>
+
+    <header class="mb-12 text-center">
+      <h1 class="font-headline text-primary text-5xl font-bold">PyProgress</h1>
+      <p class="text-muted-foreground mt-2 text-lg">
+        Learn Python and track your progress
+      </p>
+    </header>
+
+    <Card class="bg-card/80 mb-8 backdrop-blur-sm">
+      <CardHeader>
+        <CardTitle class="font-headline text-2xl"
+          >Welcome to PyProgress!</CardTitle
+        >
+        <CardDescription
+          >Select a lesson below to start learning Python.</CardDescription
+        >
+      </CardHeader>
+    </Card>
+
+    <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        pythonLessons.map((pythonLesson) => {
+          if (pythonLesson.data.type !== "lesson") return null;
+
+          return <LessonCard id={pythonLesson.id} {...pythonLesson.data} />;
+        })
+      }
+    </div>
+  </main>
+</Layout>

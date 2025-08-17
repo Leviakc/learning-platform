@@ -1,6 +1,6 @@
 ---
 type: "lesson"
-title: "Variables & Data Types"
+title: "Lists"
 description: "Learn the basics of storing information in Python variables and the different types of data you can use."
 difficulty: "beginner"
 ---

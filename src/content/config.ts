@@ -17,7 +17,9 @@ export const lessonSchema = z.object({
     .array(
       z.object({
         question: z.string(),
-        answers: z.array(z.string()),
+        options: z.array(z.string()),
+        answer: z.string(),
+        hint: z.string().optional(),
       }),
     )
     .optional(),

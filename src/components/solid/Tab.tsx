@@ -8,7 +8,7 @@ export const Tab = () => {
       const newPath = path.replace("/exercise", "");
       navigate(newPath, { history: "replace" });
     } else {
-      navigate(`${path}/exercise`);
+      navigate(`${path}/exercise`, { history: "replace" });
     }
   }
 

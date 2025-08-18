@@ -5,12 +5,13 @@ description: "Learn the basics of storing information in Python variables and th
 difficulty: "beginner"
 quiz:
   - question: "What is the data type of the value assigned to the 'age' variable below?\n age = 30"
-    answers:
+    options:
       - "int"
-      - "integer"
-  - question: "What function is used to display text in Python?"
-    answers:
-      - "print"
+      - "str"
+      - "float"
+      - "bool"
+    answer: "int"
+    hint: "The value 30 is a whole number, which is represented by the 'int' data type in Python."
 ---
 
 A **variable** is like a labeled box where you can store information. You create a variable the moment you first assign a value to it.

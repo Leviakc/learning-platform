@@ -7,7 +7,6 @@ import { Tab } from "@/components/solid/Tab.tsx";
 interface Props {
   title: string;
   description: string;
-  quiz?: { question: string; answers: string[] }[];
 }
 const { title, description } = Astro.props as Props;
 ---
@@ -17,7 +16,7 @@ const { title, description } = Astro.props as Props;
     <HeaderLesson title={title} description={description} />
     <Card>
       <div class="p-0">
-        <Tab client:only="solid" />
+        <Tab client:only="solid-js" />
 
         <div class="p-6">
           <div class="prose dark:prose-invert max-w-none">

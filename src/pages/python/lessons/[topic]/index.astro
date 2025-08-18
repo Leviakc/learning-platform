@@ -1,12 +1,9 @@
 ---
 import { render } from "astro:content";
 import { getCollection, getEntry } from "astro:content";
-import Layout from "@/layouts/Layout.astro";
 import LessonLayout from "@/layouts/LessonLayout.astro";
-import HeaderLesson from "@/components/astro/HeaderLesson.astro";
-import Card from "@/components/ui/card/Card.astro";
+import { Quiz } from "@/components/solid/Quiz";
 import type { Lesson } from "@/types/lesson";
-import { Tab } from "@/components/solid/Tab.tsx";
 
 export async function getStaticPaths() {
   const python = await getCollection("python");
@@ -32,19 +29,12 @@ const { Content } = lesson?.data.type === "lesson" ? await render(lesson) : {};
 const data = lesson?.data as Lesson;
 ---
 
-<LessonLayout
-  title={data.title}
-  description={data.description}
-  quiz={data.quiz}
->
+<LessonLayout title={data.title} description={data.description}>
   {Content && <Content />}
   {
     Array.isArray(data?.quiz) && data.quiz.length > 0 && (
       <Fragment slot="quiz">
-        <h3 class="mt-6 mb-2 text-lg font-semibold">Quick Quiz</h3>
-        <div class="bg-card text-card-foreground rounded-lg border shadow-sm">
-          {JSON.stringify(data.quiz)}
-        </div>
+        <Quiz client:only="solid-js" quiz={data.quiz} />
       </Fragment>
     )
   }

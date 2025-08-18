@@ -5,8 +5,13 @@ description: "Learn the basics of storing information in Python variables and th
 difficulty: "beginner"
 quiz:
   - question: "How do initialize a list in Python?"
-    answers:
+    options:
       - "= []"
+      - "= {}"
+      - "= ()"
+      - "= <>"
+    answer: "= []"
+    hint: "Lists in Python are initialized using square brackets []"
 ---
 
 A **List** is like a labeled box where you can store information. You create a variable the moment you first assign a value to it.

@@ -4,9 +4,13 @@ import { getEntry } from "astro:content";
 import LessonLayout from "@/layouts/LessonLayout.astro";
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/button/Button.astro";
+// import { MonacoEditor } from "@/components/solid/MonacoEditor.tsx"; // Your SolidJS component
+// import { CodeEditor } from "@/components/solid/CodeEditor.tsx"; // Your SolidJS component
+import { MonacoEditor } from "@/components/solid/MonacoEditor"; // Your SolidJS component
 import type { Lesson } from "@/types/lesson";
 import type { Exercise } from "@/types/exercise";
 import { orderedPythonLessons } from "@/utils/getOrderPythonLessons";
+import ExerciseLayout from "@/layouts/ExerciseLayout.astro";
 
 export async function getStaticPaths() {
   const topics = [
@@ -26,7 +30,6 @@ export async function getStaticPaths() {
 }
 
 const { topic, nextTopic } = Astro.props;
-console.log(nextTopic);
 
 const exercise = await getEntry("python", `${topic}/exercise`);
 const lesson = await getEntry("python", `${topic}/lesson`);
@@ -40,76 +43,44 @@ const exerciseData = exercise?.data as Exercise;
 ---
 
 <LessonLayout title={data.title} description={data.description}>
-  <div class="mb-4 flex items-start justify-between">
-    <div class="flex-grow">
-      <h3 class="text-lg font-semibold">{exerciseData.title}</h3>
+  <ExerciseLayout
+    title={exerciseData.title}
+    description="Create variables of different types and print them."
+  >
+    <button
+      class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+    >
+      <Icon name="refresh-ccw" />
+      Reset
+    </button>
+
+    <button
+      class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+    >
+      <Icon name="play" class="mr-4" />
+      Run Tests
+    </button>
+
+    <!-- Editor Code -->
+    <MonacoEditor client:only="solid-js" slot={"code-editor"} />
+    <!-- <CodeEditor /> -->
+    <!-- <MonacoEditor -->
+    <!--   slot="code-editor" -->
+    <!--   language="python" -->
+    <!--   theme="vs-dark" -->
+    <!--   client:load -->
+    <!-- /> -->
+
+    <!-- Test Results (your SolidJS component) -->
+    <!-- <div slot="test-results" id="test-results-container"> -->
+    <!-- </div> -->
+
+    <div slot="status" class="text-center" id="exercise-status">
+      <p class="text-muted-foreground text-sm">
+        0 of 3 tests passed. Complete all tests to continue.
+      </p>
     </div>
-    <div class="flex shrink-0 gap-2">
-      <button
-        class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
-      >
-        <Icon name="refresh-ccw" />
-        Reset
-      </button>
-
-      <button
-        class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
-      >
-        <Icon name="play" />
-        Run Tests
-      </button>
-    </div>
-  </div>
-  <div class="flex overflow-hidden rounded-lg border">
-    <div class="flex min-w-0 flex-1 flex-col">
-      <div
-        class="bg-muted/50 flex items-center border-b p-2 text-sm font-medium"
-      >
-        <Icon name="terminal" />
-        Code Editor
-      </div>
-
-      <!-- Monaco Editor Container -->
-      <div class="bg-background h-[450px]">
-        <slot name="code-editor">
-          <!-- Fallback placeholder -->
-          <div
-            class="text-muted-foreground bg-muted/10 flex h-full w-full items-center justify-center"
-          >
-            <div class="text-center">
-              <Icon name="code" class={"mx-auto mb-4 h-12 w-12"} />
-              <p>Monaco Editor will load here</p>
-            </div>
-          </div>
-        </slot>
-      </div>
-    </div>
-
-    <!-- Vertical divider -->
-    <div class="bg-border w-px"></div>
-
-    <!-- Test results panel -->
-    <div class="flex min-w-0 flex-1 flex-col">
-      <div
-        class="bg-muted/50 flex items-center border-b p-2 text-sm font-medium"
-      >
-        <Icon name="circle-check" />
-        Test Results
-      </div>
-
-      <!-- Test Results Container -->
-      <div class="h-[450px] overflow-y-auto">
-        <slot name="test-results">
-          <!-- Fallback placeholder -->
-          <div class="space-y-2 p-4 text-sm">
-            <p class="text-muted-foreground">
-              Click 'Run Tests' to see results.
-            </p>
-          </div>
-        </slot>
-      </div>
-    </div>
-  </div>
+  </ExerciseLayout>
 
   <Fragment slot="footer">
     <div class="mt-8 flex justify-between" id="lesson-navigation">

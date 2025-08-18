@@ -1,0 +1,107 @@
+---
+import { Icon } from "astro-icon/components";
+
+export interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<div class="p-6">
+  <!-- Header section -->
+  <div class="mb-4 flex items-start justify-between">
+    <div class="flex-grow">
+      <h3 class="text-lg font-semibold">{title}</h3>
+      <p class="text-muted-foreground text-sm">{description}</p>
+    </div>
+    <div class="flex shrink-0 gap-2">
+      <!-- Reset Button Slot -->
+      <slot name="reset-button">
+        <button
+          class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+        >
+          <Icon name="refresh-ccw" />
+          Reset
+        </button>
+      </slot>
+
+      <!-- Run Tests Button Slot -->
+      <slot name="run-button">
+        <button
+          class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+        >
+          <Icon name="play" />
+          Run Tests
+        </button>
+      </slot>
+    </div>
+  </div>
+
+  <!-- Main panels container -->
+  <div class="flex overflow-hidden rounded-lg border">
+    <!-- Code editor panel -->
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div
+        class="bg-muted/50 flex items-center border-b p-2 text-sm font-medium"
+      >
+        <Icon name="terminal" />
+        Code Editor
+      </div>
+
+      <!-- Monaco Editor Container -->
+      <div class="bg-background h-[450px]">
+        <slot name="code-editor">
+          <!-- Fallback placeholder -->
+          <div
+            class="text-muted-foreground bg-muted/10 flex h-full w-full items-center justify-center"
+          >
+            <div class="text-center">
+              <Icon name="code" class={"mx-auto mb-4 h-12 w-12"} />
+              <p>Monaco Editor will load here</p>
+            </div>
+          </div>
+        </slot>
+      </div>
+    </div>
+
+    <!-- Vertical divider -->
+    <div class="bg-border w-px"></div>
+
+    <!-- Test results panel -->
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div
+        class="bg-muted/50 flex items-center border-b p-2 text-sm font-medium"
+      >
+        <!-- CheckCircle Icon -->
+        <Icon name="circle-check" />
+        Test Results
+      </div>
+
+      <!-- Test Results Container -->
+      <div class="h-[450px] overflow-y-auto">
+        <slot name="test-results">
+          <!-- Fallback placeholder -->
+          <div class="space-y-2 p-4 text-sm">
+            <p class="text-muted-foreground">
+              Click 'Run Tests' to see results.
+            </p>
+          </div>
+        </slot>
+      </div>
+    </div>
+  </div>
+
+  <!-- Status/Progress section -->
+  <div class="mt-4">
+    <slot name="status">
+      <!-- Fallback status -->
+      <div class="text-center">
+        <p class="text-muted-foreground text-sm">
+          Complete all tests to continue.
+        </p>
+      </div>
+    </slot>
+  </div>
+</div>

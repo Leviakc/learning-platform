@@ -5,6 +5,7 @@ import LessonLayout from "@/layouts/LessonLayout.astro";
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/button/Button.astro";
 import type { Lesson } from "@/types/lesson";
+import type { Exercise } from "@/types/exercise";
 import { orderedPythonLessons } from "@/utils/getOrderPythonLessons";
 
 export async function getStaticPaths() {
@@ -13,11 +14,7 @@ export async function getStaticPaths() {
   ];
 
   return topics.map((topic, index) => {
-    const prevTopic = index > 0 ? topics[index - 1] : null;
     const nextTopic = index < topics.length - 1 ? topics[index + 1] : null;
-    console.log(
-      `Topic: ${topic}, previous topic: ${prevTopic}, next topic: ${nextTopic}`,
-    );
     return {
       params: { topic: topic },
       props: {
@@ -39,18 +36,81 @@ const { Content: ExerciseContent } = exercise
   : { Content: null };
 
 const data = lesson?.data as Lesson;
+const exerciseData = exercise?.data as Exercise;
 ---
 
 <LessonLayout title={data.title} description={data.description}>
-  {
-    exercise && (
-      <div>
-        <h1>Practice: {topic}</h1>
+  <div class="mb-4 flex items-start justify-between">
+    <div class="flex-grow">
+      <h3 class="text-lg font-semibold">{exerciseData.title}</h3>
+    </div>
+    <div class="flex shrink-0 gap-2">
+      <button
+        class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+      >
+        <Icon name="refresh-ccw" />
+        Reset
+      </button>
 
-        {ExerciseContent && <ExerciseContent />}
+      <button
+        class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+      >
+        <Icon name="play" />
+        Run Tests
+      </button>
+    </div>
+  </div>
+  <div class="flex overflow-hidden rounded-lg border">
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div
+        class="bg-muted/50 flex items-center border-b p-2 text-sm font-medium"
+      >
+        <Icon name="terminal" />
+        Code Editor
       </div>
-    )
-  }
+
+      <!-- Monaco Editor Container -->
+      <div class="bg-background h-[450px]">
+        <slot name="code-editor">
+          <!-- Fallback placeholder -->
+          <div
+            class="text-muted-foreground bg-muted/10 flex h-full w-full items-center justify-center"
+          >
+            <div class="text-center">
+              <Icon name="code" class={"mx-auto mb-4 h-12 w-12"} />
+              <p>Monaco Editor will load here</p>
+            </div>
+          </div>
+        </slot>
+      </div>
+    </div>
+
+    <!-- Vertical divider -->
+    <div class="bg-border w-px"></div>
+
+    <!-- Test results panel -->
+    <div class="flex min-w-0 flex-1 flex-col">
+      <div
+        class="bg-muted/50 flex items-center border-b p-2 text-sm font-medium"
+      >
+        <Icon name="circle-check" />
+        Test Results
+      </div>
+
+      <!-- Test Results Container -->
+      <div class="h-[450px] overflow-y-auto">
+        <slot name="test-results">
+          <!-- Fallback placeholder -->
+          <div class="space-y-2 p-4 text-sm">
+            <p class="text-muted-foreground">
+              Click 'Run Tests' to see results.
+            </p>
+          </div>
+        </slot>
+      </div>
+    </div>
+  </div>
+
   <Fragment slot="footer">
     <div class="mt-8 flex justify-between" id="lesson-navigation">
       <Button variant="outline" href={`/python/lessons/${topic}`}>

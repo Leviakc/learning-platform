@@ -1,6 +1,7 @@
 ---
 type: "lesson"
 title: "Variables & Data Types"
+order: 2
 description: "Learn the basics of storing information in Python variables and the different types of data you can use."
 difficulty: "beginner"
 quiz:

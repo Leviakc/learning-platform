@@ -1,28 +1,32 @@
 ---
 import { render } from "astro:content";
-import { getCollection, getEntry } from "astro:content";
+import { getEntry } from "astro:content";
 import LessonLayout from "@/layouts/LessonLayout.astro";
+import { Icon } from "astro-icon/components";
+import Button from "@/components/ui/button/Button.astro";
 import { Quiz } from "@/components/solid/Quiz";
 import type { Lesson } from "@/types/lesson";
+import { orderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
 
 export async function getStaticPaths() {
-  const python = await getCollection("python");
-
   const topics = [
-    ...new Set(
-      python
-        .map((entry) => entry.id.split("/")[0])
-        .filter((topic) => topic !== "lesson.md" && topic !== "exercise.md"),
-    ),
+    ...new Set(orderedPythonLessons.map((lesson) => lesson.id.split("/")[0])),
   ];
 
-  return topics.map((topic) => ({
-    params: { topic },
-    props: { topic },
-  }));
+  return topics.map((topic, index) => {
+    const prevTopic = index > 0 ? topics[index - 1] : null;
+
+    return {
+      params: { topic: topic },
+      props: {
+        topic: topic,
+        prevTopic: prevTopic,
+      },
+    };
+  });
 }
 
-const { topic } = Astro.props;
+const { topic, prevTopic } = Astro.props;
 const lesson = await getEntry("python", `${topic}/lesson`);
 
 const { Content } = lesson?.data.type === "lesson" ? await render(lesson) : {};
@@ -39,8 +43,22 @@ const data = lesson?.data as Lesson;
     )
   }
   <Fragment slot="footer">
-    <div class="bg-card text-card-foreground mt-5 rounded-lg border shadow-sm">
-      <p>Aquí van unos botones</p>
+    <div class="mt-8 flex justify-between" id="lesson-navigation">
+      {
+        prevTopic ? (
+          <Button variant="outline" href={`/python/lessons/${prevTopic}`}>
+            <Icon name="arrow-left" />
+            Previous Lesson
+          </Button>
+        ) : (
+          <div />
+        )
+      }
+
+      <Button href={`/python/lessons/${topic}/exercise`}>
+        Go to Exercise
+        <Icon name="arrow-right" />
+      </Button>
     </div>
   </Fragment>
 </LessonLayout>

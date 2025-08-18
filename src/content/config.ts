@@ -11,6 +11,7 @@ const exerciseSchema = z.object({
 export const lessonSchema = z.object({
   type: z.literal("lesson"),
   title: z.string(),
+  order: z.number(),
   description: z.string(),
   difficulty: z.enum(["beginner", "intermediate", "advanced"]),
   quiz: z

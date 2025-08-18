@@ -2,6 +2,7 @@
 type: "lesson"
 title: "Comments"
 description: "Learn the basics of commenting your code in Python."
+order: 1
 difficulty: "beginner"
 quiz:
   - question: "What is the data type of the value assigned to the 'age' variable below?\n age = 30"

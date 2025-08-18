@@ -6,14 +6,9 @@ import CardTitle from "@/components/ui/card/CardTitle.astro";
 import CardDescription from "@/components/ui/card/CardDescription.astro";
 import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
-import { getCollection } from "astro:content";
 import LessonCard from "@/components/astro/LessonCard.astro";
 import HeaderTitle from "@/components/astro/HeaderTitle.astro";
-// import binaryBrain from "@/assets/images/binary-logo.png";
-
-const pythonLessons = await getCollection("python", (entry) =>
-  entry.id.endsWith("/lesson"),
-);
+import { orderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
 ---
 
 <Layout title="Binary Learns - Learn Python">
@@ -46,7 +41,7 @@ const pythonLessons = await getCollection("python", (entry) =>
 
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {
-        pythonLessons.map((pythonLesson) => {
+        orderedPythonLessons.map((pythonLesson) => {
           if (pythonLesson.data.type !== "lesson") return null;
 
           return <LessonCard id={pythonLesson.id} {...pythonLesson.data} />;

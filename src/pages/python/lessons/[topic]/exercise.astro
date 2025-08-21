@@ -1,11 +1,8 @@
 ---
-import { render } from "astro:content";
 import { getEntry } from "astro:content";
 import LessonLayout from "@/layouts/LessonLayout.astro";
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/button/Button.astro";
-// import { MonacoEditor } from "@/components/solid/MonacoEditor.tsx"; // Your SolidJS component
-// import { CodeEditor } from "@/components/solid/CodeEditor.tsx"; // Your SolidJS component
 import { MonacoEditor } from "@/components/solid/MonacoEditor"; // Your SolidJS component
 import type { Lesson } from "@/types/lesson";
 import type { Exercise } from "@/types/exercise";
@@ -34,17 +31,23 @@ const { topic, nextTopic } = Astro.props;
 const exercise = await getEntry("python", `${topic}/exercise`);
 const lesson = await getEntry("python", `${topic}/lesson`);
 
-const { Content: ExerciseContent } = exercise
-  ? await render(exercise)
-  : { Content: null };
-
 const data = lesson?.data as Lesson;
 const exerciseData = exercise?.data as Exercise;
+
+const initialEditorCode = exercise?.body
+  ? exercise.body
+      .split("\n")
+      .map((line) => {
+        if (line === "\n" || line.trim() === "") return line;
+        return `# ${line}`;
+      })
+      .join("\n")
+  : "";
 ---
 
 <LessonLayout title={data.title} description={data.description}>
   <ExerciseLayout
-    title={exerciseData.title}
+    title={exerciseData.title || "Test"}
     description="Create variables of different types and print them."
   >
     <button
@@ -61,15 +64,11 @@ const exerciseData = exercise?.data as Exercise;
       Run Tests
     </button>
 
-    <!-- Editor Code -->
-    <MonacoEditor client:only="solid-js" slot={"code-editor"} />
-    <!-- <CodeEditor /> -->
-    <!-- <MonacoEditor -->
-    <!--   slot="code-editor" -->
-    <!--   language="python" -->
-    <!--   theme="vs-dark" -->
-    <!--   client:load -->
-    <!-- /> -->
+    <MonacoEditor
+      client:only="solid-js"
+      slot={"code-editor"}
+      initialCode={initialEditorCode || ""}
+    />
 
     <!-- Test Results (your SolidJS component) -->
     <!-- <div slot="test-results" id="test-results-container"> -->

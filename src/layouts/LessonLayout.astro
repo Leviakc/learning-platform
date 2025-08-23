@@ -12,13 +12,13 @@ const { title, description } = Astro.props as Props;
 ---
 
 <Layout title={title} description={description}>
-  <main class="container mx-auto max-w-5xl p-4 md:p-8">
+  <main class="container mx-auto max-w-6xl p-4 md:p-8">
     <HeaderLesson title={title} description={description} />
     <Card>
       <div class="p-0">
         <Tab client:only="solid-js" />
 
-        <div class="p-6">
+        <div class="p-1 md:p-6">
           <div class="prose dark:prose-invert max-w-none">
             <slot />
           </div>

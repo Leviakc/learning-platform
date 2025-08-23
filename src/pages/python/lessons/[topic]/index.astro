@@ -55,7 +55,12 @@ const data = lesson?.data as Lesson;
         )
       }
 
-      <Button href={`/python/lessons/${topic}/exercise`}>
+      <!-- TODO: Check if it's possible to do this withouth full reload -->
+      <Button
+        href={`/python/lessons/${topic}/exercise`}
+        data-astro-reload
+        data-astro-prefetch
+      >
         Go to Exercise
         <Icon name="arrow-right" />
       </Button>

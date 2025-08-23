@@ -3,11 +3,11 @@ import { getEntry } from "astro:content";
 import LessonLayout from "@/layouts/LessonLayout.astro";
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/button/Button.astro";
-import { MonacoEditor } from "@/components/solid/MonacoEditor"; // Your SolidJS component
 import type { Lesson } from "@/types/lesson";
 import type { Exercise } from "@/types/exercise";
 import { orderedPythonLessons } from "@/utils/getOrderPythonLessons";
 import ExerciseLayout from "@/layouts/ExerciseLayout.astro";
+import { MonacoEditor } from "@/components/solid/MonacoEditor";
 
 export async function getStaticPaths() {
   const topics = [
@@ -46,12 +46,16 @@ const initialEditorCode = exercise?.body
 ---
 
 <LessonLayout title={data.title} description={data.description}>
+  <div data-code={initialEditorCode}></div>
+
   <ExerciseLayout
     title={exerciseData.title || "Test"}
     description="Create variables of different types and print them."
   >
     <button
       class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+      slot="reset-button"
+      id="reset-button"
     >
       <Icon name="refresh-ccw" />
       Reset
@@ -59,6 +63,8 @@ const initialEditorCode = exercise?.body
 
     <button
       class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+      id="run-tests-button"
+      slot="run-button"
     >
       <Icon name="play" class="mr-4" />
       Run Tests
@@ -66,8 +72,8 @@ const initialEditorCode = exercise?.body
 
     <MonacoEditor
       client:only="solid-js"
-      slot={"code-editor"}
-      initialCode={initialEditorCode || ""}
+      initialCode={initialEditorCode}
+      slot="code-editor"
     />
 
     <!-- Test Results (your SolidJS component) -->

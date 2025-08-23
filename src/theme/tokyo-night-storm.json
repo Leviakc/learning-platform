@@ -418,7 +418,7 @@
       "token": "keyword.control.flow.python"
     },
     {
-      "foreground": "#51597d",
+      "foreground": "#87899C",
       "token": "comment"
     },
     {

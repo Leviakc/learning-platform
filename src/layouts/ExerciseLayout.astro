@@ -10,13 +10,18 @@ const { title, description } = Astro.props;
 ---
 
 <div class="p-6">
-  <!-- Header section -->
-  <div class="mb-4 flex items-start justify-between">
+  <!-- Header section - Responsive layout -->
+  <div
+    class="mb-4 flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between lg:gap-0"
+  >
+    <!-- Title and description - Full width on mobile -->
     <div class="flex-grow">
       <h3 class="text-lg font-semibold">{title}</h3>
       <p class="text-muted-foreground text-sm">{description}</p>
     </div>
-    <div class="flex shrink-0 gap-2">
+
+    <!-- Buttons - Stack below on mobile, inline on desktop -->
+    <div class="flex shrink-0 gap-2 lg:ml-4">
       <!-- Reset Button Slot -->
       <slot name="reset-button">
         <button
@@ -39,10 +44,9 @@ const { title, description } = Astro.props;
     </div>
   </div>
 
-  <!-- Main panels container -->
-  <div class="flex overflow-hidden rounded-lg border">
-    <!-- Code editor panel -->
-    <div class="flex min-w-0 flex-1 flex-col">
+  <div class="exercise-grid">
+    <!-- Code Editor Panel - Takes more space -->
+    <div class="code-panel flex flex-col overflow-hidden rounded-lg border">
       <div
         class="bg-muted/50 flex items-center gap-3 border-b p-2 text-sm font-medium"
       >
@@ -51,14 +55,15 @@ const { title, description } = Astro.props;
       </div>
 
       <!-- Monaco Editor Container -->
-      <div class="bg-background h-[450px]">
+      <div class="bg-background min-h-0 flex-1">
         <slot name="code-editor">
           <!-- Fallback placeholder -->
           <div
             class="text-muted-foreground bg-muted/10 flex h-full w-full items-center justify-center"
+            id="editor-placeholder"
           >
             <div class="text-center">
-              <Icon name="code" class={"mx-auto mb-4 h-12 w-12"} />
+              <Icon name="code" class="mx-auto mb-4 h-12 w-12" />
               <p>Monaco Editor will load here</p>
             </div>
           </div>
@@ -66,21 +71,17 @@ const { title, description } = Astro.props;
       </div>
     </div>
 
-    <!-- Vertical divider -->
-    <div class="bg-border w-px"></div>
-
-    <!-- Test results panel -->
-    <div class="flex min-w-0 flex-1 flex-col">
+    <!-- Test Results Panel - Takes less space -->
+    <div class="test-panel flex flex-col overflow-hidden rounded-lg border">
       <div
         class="bg-muted/50 flex items-center gap-3 border-b p-2 text-sm font-medium"
       >
-        <!-- CheckCircle Icon -->
         <Icon name="circle-check" />
         Test Results
       </div>
 
       <!-- Test Results Container -->
-      <div class="h-[450px] overflow-y-auto">
+      <div class="min-h-0 flex-1 overflow-y-auto">
         <slot name="test-results">
           <!-- Fallback placeholder -->
           <div class="space-y-2 p-4 text-sm">
@@ -105,3 +106,49 @@ const { title, description } = Astro.props;
     </slot>
   </div>
 </div>
+
+<style>
+  .exercise-grid {
+    display: grid;
+    gap: 1rem;
+    height: 700px;
+
+    /* Mobile: Single column, code editor takes more vertical space */
+    grid-template-columns: 1fr;
+    grid-template-rows: 3fr 2fr;
+  }
+
+  .code-panel {
+    grid-row: 1;
+  }
+
+  .test-panel {
+    grid-row: 2;
+  }
+
+  /* Large screens: Two columns, code editor takes 65% width */
+  @media (min-width: 1024px) {
+    .exercise-grid {
+      grid-template-columns: 65fr 35fr;
+      grid-template-rows: 1fr;
+      height: 500px;
+    }
+
+    .code-panel {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .test-panel {
+      grid-column: 2;
+      grid-row: 1;
+    }
+  }
+
+  /* Extra large screens: Give even more space to code editor */
+  @media (min-width: 1280px) {
+    .exercise-grid {
+      grid-template-columns: 70fr 30fr;
+    }
+  }
+</style>

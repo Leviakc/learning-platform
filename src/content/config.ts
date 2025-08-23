@@ -1,10 +1,9 @@
 import { defineCollection, z } from "astro:content";
 import { glob } from "astro/loaders";
 
-const exerciseSchema = z.object({
+export const exerciseSchema = z.object({
   type: z.literal("exercise"),
   title: z.string().optional(),
-  // comment: z.union([z.string(), z.array(z.string())]),
   tests: z.array(z.any()), // We'll define the test structure later
 });
 

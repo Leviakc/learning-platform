@@ -1,11 +1,13 @@
 ---
-import { render } from "astro:content";
 import { getEntry } from "astro:content";
 import LessonLayout from "@/layouts/LessonLayout.astro";
 import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/button/Button.astro";
 import type { Lesson } from "@/types/lesson";
+import type { Exercise } from "@/types/exercise";
 import { orderedPythonLessons } from "@/utils/getOrderPythonLessons";
+import ExerciseLayout from "@/layouts/ExerciseLayout.astro";
+import { MonacoEditor } from "@/components/solid/MonacoEditor";
 
 export async function getStaticPaths() {
   const topics = [
@@ -13,11 +15,7 @@ export async function getStaticPaths() {
   ];
 
   return topics.map((topic, index) => {
-    const prevTopic = index > 0 ? topics[index - 1] : null;
     const nextTopic = index < topics.length - 1 ? topics[index + 1] : null;
-    console.log(
-      `Topic: ${topic}, previous topic: ${prevTopic}, next topic: ${nextTopic}`,
-    );
     return {
       params: { topic: topic },
       props: {
@@ -29,28 +27,66 @@ export async function getStaticPaths() {
 }
 
 const { topic, nextTopic } = Astro.props;
-console.log(nextTopic);
 
 const exercise = await getEntry("python", `${topic}/exercise`);
 const lesson = await getEntry("python", `${topic}/lesson`);
 
-const { Content: ExerciseContent } = exercise
-  ? await render(exercise)
-  : { Content: null };
-
 const data = lesson?.data as Lesson;
+const exerciseData = exercise?.data as Exercise;
+
+const initialEditorCode = exercise?.body
+  ? exercise.body
+      .split("\n")
+      .map((line) => {
+        if (line === "\n" || line.trim() === "") return line;
+        return `# ${line}`;
+      })
+      .join("\n")
+  : "";
 ---
 
 <LessonLayout title={data.title} description={data.description}>
-  {
-    exercise && (
-      <div>
-        <h1>Practice: {topic}</h1>
+  <div data-code={initialEditorCode}></div>
 
-        {ExerciseContent && <ExerciseContent />}
-      </div>
-    )
-  }
+  <ExerciseLayout
+    title={exerciseData.title || "Test"}
+    description="Create variables of different types and print them."
+  >
+    <button
+      class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+      slot="reset-button"
+      id="reset-button"
+    >
+      <Icon name="refresh-ccw" />
+      Reset
+    </button>
+
+    <button
+      class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+      id="run-tests-button"
+      slot="run-button"
+    >
+      <Icon name="play" class="mr-4" />
+      Run Tests
+    </button>
+
+    <MonacoEditor
+      client:only="solid-js"
+      initialCode={initialEditorCode}
+      slot="code-editor"
+    />
+
+    <!-- Test Results (your SolidJS component) -->
+    <!-- <div slot="test-results" id="test-results-container"> -->
+    <!-- </div> -->
+
+    <div slot="status" class="text-center" id="exercise-status">
+      <p class="text-muted-foreground text-sm">
+        0 of 3 tests passed. Complete all tests to continue.
+      </p>
+    </div>
+  </ExerciseLayout>
+
   <Fragment slot="footer">
     <div class="mt-8 flex justify-between" id="lesson-navigation">
       <Button variant="outline" href={`/python/lessons/${topic}`}>

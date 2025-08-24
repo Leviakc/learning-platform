@@ -1,0 +1,131 @@
+---
+interface Props {
+  targetDate: string | Date;
+  title?: string;
+}
+
+const { targetDate, title } = Astro.props;
+const LAUNCH_DATE = new Date(targetDate).getTime();
+---
+
+<section class="flex flex-col items-center space-y-6">
+  {title && (
+    <h3 class="text-xl font-semibold text-center">{title}</h3>
+  )}
+  
+  <div class="flex justify-center space-x-4 sm:space-x-8" data-date={LAUNCH_DATE}>
+    <div class="flex flex-col items-center space-y-2">
+      <span 
+        data-days 
+        class="bg-background border-2 border-border rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-2xl sm:text-4xl font-bold text-center min-w-[60px] sm:min-w-[80px] tabular-nums"
+      >
+        00
+      </span>
+      <span class="text-sm sm:text-base font-medium text-muted-foreground">Days</span>
+    </div>
+
+    <div class="flex flex-col items-center space-y-2">
+      <span 
+        data-hours 
+        class="bg-background border-2 border-border rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-2xl sm:text-4xl font-bold text-center min-w-[60px] sm:min-w-[80px] tabular-nums"
+      >
+        00
+      </span>
+      <span class="text-sm sm:text-base font-medium text-muted-foreground">Hours</span>
+    </div>
+
+    <div class="flex flex-col items-center space-y-2">
+      <span 
+        data-minutes 
+        class="bg-background border-2 border-border rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-2xl sm:text-4xl font-bold text-center min-w-[60px] sm:min-w-[80px] tabular-nums"
+      >
+        00
+      </span>
+      <span class="text-sm sm:text-base font-medium text-muted-foreground">Minutes</span>
+    </div>
+
+    <div class="flex flex-col items-center space-y-2">
+      <span 
+        data-seconds 
+        class="bg-background border-2 border-border rounded-lg px-3 py-2 sm:px-4 sm:py-3 text-2xl sm:text-4xl font-bold text-center min-w-[60px] sm:min-w-[80px] tabular-nums"
+      >
+        00
+      </span>
+      <span class="text-sm sm:text-base font-medium text-muted-foreground">Seconds</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  const SECONDS = 1000;
+  const MINUTES = SECONDS * 60;
+  const HOURS = MINUTES * 60;
+  const DAYS = HOURS * 24;
+
+  const countDown = document.querySelector("[data-date]");
+
+  if (!countDown) {
+    throw new Error("No launch date provided");
+  }
+
+  const launchDate = countDown.getAttribute("data-date");
+  const $days = document.querySelector("[data-days]");
+  const $hours = document.querySelector("[data-hours]");
+  const $minutes = document.querySelector("[data-minutes]");
+  const $seconds = document.querySelector("[data-seconds]");
+
+  if (typeof launchDate === null || !launchDate) {
+    throw new Error("Invalid launch date");
+  }
+
+  const formatTime = (time: number) =>
+    Math.floor(time).toString().padStart(2, "0");
+
+  const updateTime = () => {
+    const diff = Number(launchDate) - Date.now();
+    
+    // If countdown is finished
+    if (diff <= 0) {
+      if ($days instanceof HTMLElement) $days.innerText = "00";
+      if ($hours instanceof HTMLElement) $hours.innerText = "00";
+      if ($minutes instanceof HTMLElement) $minutes.innerText = "00";
+      if ($seconds instanceof HTMLElement) $seconds.innerText = "00";
+      return;
+    }
+
+    const days = formatTime(diff / DAYS);
+    const hours = formatTime((diff % DAYS) / HOURS);
+    const minutes = formatTime((diff % HOURS) / MINUTES);
+    const seconds = formatTime((diff % MINUTES) / SECONDS);
+
+    if ($days instanceof HTMLElement) {
+      $days.innerText = days;
+    }
+
+    if ($hours instanceof HTMLElement) {
+      $hours.innerText = hours;
+    }
+
+    if ($minutes instanceof HTMLElement) {
+      $minutes.innerText = minutes;
+    }
+
+    if ($seconds instanceof HTMLElement) {
+      $seconds.innerText = seconds;
+    }
+  };
+
+  // Initial update
+  updateTime();
+
+  // Update every second
+  const interval = setInterval(() => {
+    updateTime();
+    
+    // Check if countdown is finished and clear interval
+    const diff = Number(launchDate) - Date.now();
+    if (diff <= 0) {
+      clearInterval(interval);
+    }
+  }, 1000);
+</script>

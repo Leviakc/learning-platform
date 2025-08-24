@@ -2,9 +2,13 @@
 import Layout from "@/layouts/Layout.astro";
 import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
+import CountDown from "@/components/astro/CountDown.astro";
 ---
 
-<Layout>
+<Layout
+  title="SQL Course Coming Soon"
+  description="We're working hard to bring you an interactive SQL learning experience. Stay tuned!"
+>
   <main
     class="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 md:p-8"
   >
@@ -20,10 +24,12 @@ import { Icon } from "astro-icon/components";
       <h1 class="font-headline text-primary mb-4 text-5xl font-bold">
         SQL Course Coming Soon!
       </h1>
-      <p class="text-muted-foreground text-xl">
+      <p class="text-muted-foreground text-xl mb-8">
         We're working hard to bring you an interactive SQL learning experience.
         Stay tuned!
       </p>
+      
+      <CountDown targetDate="2025-09-30T00:00:00Z" title="Launch Countdown" />
     </div>
   </main>
 </Layout>

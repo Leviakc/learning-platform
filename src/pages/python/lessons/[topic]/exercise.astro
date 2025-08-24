@@ -8,6 +8,7 @@ import type { Exercise } from "@/types/exercise";
 import { orderedPythonLessons } from "@/utils/getOrderPythonLessons";
 import ExerciseLayout from "@/layouts/ExerciseLayout.astro";
 import { MonacoEditor } from "@/components/solid/MonacoEditor";
+import { TestRunner } from "@/components/solid/TestRunner";
 
 export async function getStaticPaths() {
   const topics = [
@@ -37,14 +38,12 @@ const exerciseData = exercise?.data as Exercise;
 const initialEditorCode = exercise?.body
   ? exercise.body
       .split("\n")
-      .map((line) => {
-        if (line === "\n" || line.trim() === "") return line;
-        return `# ${line}`;
-      })
+      .filter((line) => line.trim() !== "```python" && line.trim() !== "```")
       .join("\n")
   : "";
 ---
 
+<!-- Load Pyodide from CDN --><!-- <script is:inline src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js" --><!-- ></script> --><!-- <script is:inline src="https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js" -->
 <LessonLayout title={data.title} description={data.description}>
   <div data-code={initialEditorCode}></div>
 
@@ -53,7 +52,7 @@ const initialEditorCode = exercise?.body
     description="Create variables of different types and print them."
   >
     <button
-      class="border-input bg-background hover:bg-accent hover:text-accent-foreground inline-flex h-9 items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+      class="border-input bg-background hover:bg-accent/70 hover:text-accent-foreground inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
       slot="reset-button"
       id="reset-button"
     >
@@ -62,7 +61,7 @@ const initialEditorCode = exercise?.body
     </button>
 
     <button
-      class="bg-primary text-primary-foreground hover:bg-primary/90 inline-flex h-9 items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+      class="bg-primary text-primary-foreground hover:bg-primary/80 inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
       id="run-tests-button"
       slot="run-button"
     >
@@ -76,15 +75,20 @@ const initialEditorCode = exercise?.body
       slot="code-editor"
     />
 
-    <!-- Test Results (your SolidJS component) -->
-    <!-- <div slot="test-results" id="test-results-container"> -->
-    <!-- </div> -->
+    <!-- Test Results -->
+    <TestRunner
+      client:only="solid-js"
+      tests={exerciseData.tests || []}
+      runButtonId="run-tests-button"
+      slot="test-results"
+    />
 
     <div slot="status" class="text-center" id="exercise-status">
       <p class="text-muted-foreground text-sm">
-        0 of 3 tests passed. Complete all tests to continue.
+        Click 'Run Tests' to check your code.
       </p>
     </div>
+
   </ExerciseLayout>
 
   <Fragment slot="footer">

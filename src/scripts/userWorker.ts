@@ -24,4 +24,3 @@ self.MonacoEnvironment = {
 };
 
 monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true);
-console.log("User worker initialized");

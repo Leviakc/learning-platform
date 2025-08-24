@@ -2,14 +2,12 @@
 type: "exercise"
 title: "Variables Practice"
 tests:
-  - description: "Variable 'city' should be a string with the value 'New York'"
-    type: "variable_equals"
-    variableName: "city"
-    expectedValue: "New York"
-  - description: "Variable 'temperature' should be a number with the value 72.5"
-    type: "variable_equals"
-    variableName: "temperature"
-    expectedValue: 72.5
+  - description: "Should print the city name"
+    type: "output_contains"
+    expectedOutput: "New York"
+  - description: "Should print the temperature"
+    type: "output_contains"
+    expectedOutput: "72.5"
 ---
 
 Time to practice! Your goal is to create two variables and print them.

@@ -1,8 +1,9 @@
 ---
-import Layout from "@/layouts/Layout.astro";
 import HeaderLesson from "@/components/astro/HeaderLesson.astro";
 import Card from "@/components/ui/card/Card.astro";
 import { Tab } from "@/components/solid/Tab.tsx";
+import { ClientRouter } from "astro:transitions";
+import "@/styles/global.css";
 
 interface Props {
   title: string;
@@ -11,22 +12,47 @@ interface Props {
 const { title, description } = Astro.props as Props;
 ---
 
-<Layout title={title} description={description}>
-  <main class="container mx-auto max-w-6xl p-4 md:p-8">
-    <HeaderLesson title={title} description={description} />
-    <Card>
-      <div class="p-0">
-        <Tab client:only="solid-js" />
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- <script></script> -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js"
+    ></script>
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <ClientRouter />
+  </head>
+  <body class="bg-background text-foreground font-body antialiased">
+    <main class="container mx-auto max-w-6xl p-4 md:p-8">
+      <HeaderLesson title={title} description={description} />
+      <Card>
+        <div class="p-0">
+          <Tab client:only="solid-js" />
 
-        <div class="p-1 md:p-6">
-          <div class="prose dark:prose-invert max-w-none">
-            <slot />
+          <div class="p-1 md:p-6">
+            <div class="prose dark:prose-invert max-w-none">
+              <slot />
+            </div>
+
+            <slot name="quiz" />
           </div>
-
-          <slot name="quiz" />
         </div>
-      </div>
-    </Card>
-    <slot name="footer" />
-  </main>
-</Layout>
+      </Card>
+      <slot name="footer" />
+    </main>
+  </body>
+</html>

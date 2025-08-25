@@ -1,12 +1,13 @@
-import { createEffect, createSignal, onCleanup, onMount, Show } from "solid-js";
+import { createSignal, onCleanup, onMount, Show } from "solid-js";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
 import "@/scripts/userWorker";
 import TokyoNightStorm from "@/theme/tokyo-night-storm.json";
-import { editorStore, setEditorStore } from "@/stores/editorStore";
+import { setEditorStore } from "@/stores/editorStore";
+import { getSnippetsForLanguage } from "./snippets";
 
 interface EditorProps {
   initialCode?: string;
-  language?: string;
+  language: "python" | "sql";
   theme?: string;
 }
 
@@ -25,10 +26,51 @@ export const MonacoEditor = (props: EditorProps) => {
         ...TokyoNightStorm,
       });
 
+      monaco.languages.registerCompletionItemProvider(props.language, {
+        async provideCompletionItems(model, position) {
+          const word = model.getWordUntilPosition(position);
+          const range = {
+            startLineNumber: position.lineNumber,
+            endLineNumber: position.lineNumber,
+            startColumn: word.startColumn,
+            endColumn: word.endColumn,
+          };
+
+          // Get word-based suggestions from the current document
+          const wordSuggestions = monaco.languages.CompletionItemKind.Text;
+          const textContent = model.getValue();
+          const currentWord = word.word.toLowerCase();
+          
+          // Extract words from the document that match the current input
+          const words = textContent.match(/\b\w+\b/g) || [];
+          const uniqueWords = [...new Set(words)];
+          
+          const wordBasedSuggestions = uniqueWords
+            .filter(w => 
+              w.toLowerCase().startsWith(currentWord) && 
+              w.toLowerCase() !== currentWord &&
+              w.length > 1
+            )
+            .map(w => ({
+              label: w,
+              kind: wordSuggestions,
+              insertText: w,
+              range,
+            }));
+
+          return {
+            suggestions: [
+              ...(await getSnippetsForLanguage(props.language, range)),
+              ...wordBasedSuggestions,
+            ],
+          };
+        },
+      });
+
       editor = monaco.editor.create(container, {
         value: props.initialCode,
         renderLineHighlightOnlyWhenFocus: true,
-        language: props.language || "python",
+        language: props.language,
         theme: props.theme || "TokyoNightStorm",
         automaticLayout: true,
         wordBasedSuggestions: "currentDocument",
@@ -41,6 +83,12 @@ export const MonacoEditor = (props: EditorProps) => {
         minimap: {
           enabled: false,
         },
+        quickSuggestions: {
+          other: true,
+          comments: true,
+          strings: true,
+        },
+        snippetSuggestions: "top",
       });
 
       setEditorStore(editor);

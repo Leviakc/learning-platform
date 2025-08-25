@@ -43,7 +43,6 @@ const initialEditorCode = exercise?.body
   : "";
 ---
 
-<!-- Load Pyodide from CDN --><!-- <script is:inline src="https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js" --><!-- ></script> --><!-- <script is:inline src="https://cdn.jsdelivr.net/pyodide/v0.28.2/full/pyodide.js" -->
 <LessonLayout title={data.title} description={data.description}>
   <div data-code={initialEditorCode}></div>
 
@@ -73,6 +72,7 @@ const initialEditorCode = exercise?.body
       client:only="solid-js"
       initialCode={initialEditorCode}
       slot="code-editor"
+      language="python"
     />
 
     <!-- Test Results -->
@@ -88,7 +88,6 @@ const initialEditorCode = exercise?.body
         Click 'Run Tests' to check your code.
       </p>
     </div>
-
   </ExerciseLayout>
 
   <Fragment slot="footer">

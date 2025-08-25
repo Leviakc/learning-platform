@@ -59,19 +59,18 @@ src/
 
 Tenemos una emocionante hoja de ruta de funcionalidades para mejorar la plataforma Binary Learns. Nuestros objetivos principales son mejorar la experiencia de aprendizaje, expandir el contenido y empoderar a la comunidad.
 
-- [ ] **Snippets en el Editor:** Añadir snippets de código personalizados al editor para patrones comunes (ej. bucles `for`, `funciones`).
-- [ ] **Tour Interactivo de la Página (con Driver.js):** Implementar tours guiados para introducir a los usuarios a las funcionalidades de la plataforma.
-- [ ] **Mejorar primeras lecciones:** Hacer las primeras lecciones más
-      amigables para principiantes y con mejor contenido.
-- [ ] **Almacenamiento de Progreso:** Implementar cuentas de usuario para guardar el progreso y registrar las lecciones completadas.
+- [x] **Snippets en el Editor:** Añadir snippets de código personalizados al editor para patrones comunes (ej. bucles `for`, `funciones`).
+- [ ] **Mejorar primeras lecciones:** Hacer las primeras lecciones más amigables para principiantes y con mejor contenido.
 - [ ] **i18n:** Internacionalización completa para soportar múltiples idiomas en la interfaz de usuario.
+- [ ] **Almacenamiento de Progreso:** Implementar cuentas de usuario para guardar el progreso y registrar las lecciones completadas.
+- [ ] **Tour Interactivo de la Página (con Driver.js):** Implementar tours guiados para introducir a los usuarios a las funcionalidades de la plataforma.
 - [ ] **Soporte para PWA:** Convertir la aplicación en una Progressive Web App para mejores capacidades offline y rendimiento.
 - [ ] **Soporte para SQL:** Añadir una ruta de aprendizaje completa para SQL, desde consultas básicas hasta temas avanzados.
 - [ ] **Mejoras de UI/UX:** Mejorar continuamente la interfaz de usuario y la experiencia.
 - [ ] **Mejoras en performance**: Mejorar los tiempos de carga y la eficiencia
       del editor.
 
-Para un desglose detallado de las próximas lecciones, por favor vea nuestra [Hoja de Ruta de Lecciones](ROADMAP.md).
+Para un desglose detallado de las próximas lecciones, por favor vea nuestra [Ruta de Lecciones](ROADMAP.md).
 
 ## 🤝 Contribuciones
 

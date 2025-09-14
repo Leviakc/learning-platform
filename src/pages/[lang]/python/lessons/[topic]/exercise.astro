@@ -5,32 +5,52 @@ import { Icon } from "astro-icon/components";
 import Button from "@/components/ui/button/Button.astro";
 import type { Lesson } from "@/types/lesson";
 import type { Exercise } from "@/types/exercise";
-import { orderedPythonLessons } from "@/utils/getOrderPythonLessons";
+import { getOrderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
 import ExerciseLayout from "@/layouts/ExerciseLayout.astro";
 import { MonacoEditor } from "@/components/solid/MonacoEditor";
 import { TestRunner } from "@/components/solid/TestRunner";
+import { useTranslations } from "@/i18n/utils";
+import type { Language } from "@/types/language";
+import { SUPPORTED_LANGUAGES } from "@/i18n/constants";
+
+type Paths = {
+  params: {
+    lang: string;
+    topic: string;
+  };
+  props: {
+    topic: string;
+    nextTopic: string | null;
+  };
+};
 
 export async function getStaticPaths() {
-  const topics = [
-    ...new Set(orderedPythonLessons.map((lesson) => lesson.id.split("/")[0])),
-  ];
+  const paths: Paths[] = [];
 
-  return topics.map((topic, index) => {
-    const nextTopic = index < topics.length - 1 ? topics[index + 1] : null;
-    return {
-      params: { topic: topic },
-      props: {
-        topic,
-        nextTopic,
-      },
-    };
-  });
+  for (const lang of SUPPORTED_LANGUAGES) {
+    const lessons = await getOrderedPythonLessons(lang);
+    const topics = [
+      ...new Set(lessons.map((lesson) => lesson.id.split("/")[1])),
+    ];
+
+    topics.forEach((topic, index) => {
+      const nextTopic = index < topics.length - 1 ? topics[index + 1] : null;
+      paths.push({
+        params: { lang, topic },
+        props: { topic, nextTopic },
+      });
+    });
+  }
+
+  return paths;
 }
 
 const { topic, nextTopic } = Astro.props;
+const { lang } = Astro.params;
+const t = useTranslations(lang as Language);
 
-const exercise = await getEntry("python", `${topic}/exercise`);
-const lesson = await getEntry("python", `${topic}/lesson`);
+const exercise = await getEntry("python", `${lang}/${topic}/exercise`);
+const lesson = await getEntry("python", `${lang}/${topic}/lesson`);
 
 const data = lesson?.data as Lesson;
 const exerciseData = exercise?.data as Exercise;
@@ -43,12 +63,12 @@ const initialEditorCode = exercise?.body
   : "";
 ---
 
-<LessonLayout title={data.title} description={data.description}>
+<LessonLayout title={data.title} description={data.description} lang={lang}>
   <div data-code={initialEditorCode}></div>
 
   <ExerciseLayout
-    title={exerciseData.title || "Test"}
-    description="Create variables of different types and print them."
+    title={exerciseData.title || t("python.exercise.test")}
+    description={t("python.exercise.description")}
   >
     <button
       class="border-input bg-background hover:bg-accent/70 hover:text-accent-foreground inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
@@ -56,7 +76,7 @@ const initialEditorCode = exercise?.body
       id="reset-button"
     >
       <Icon name="refresh-ccw" />
-      Reset
+      {t("python.exercise.reset")}
     </button>
 
     <button
@@ -65,7 +85,7 @@ const initialEditorCode = exercise?.body
       slot="run-button"
     >
       <Icon name="play" class="mr-4" />
-      Run Tests
+      {t("python.exercise.runTests")}
     </button>
 
     <MonacoEditor
@@ -85,22 +105,22 @@ const initialEditorCode = exercise?.body
 
     <div slot="status" class="text-center" id="exercise-status">
       <p class="text-muted-foreground text-sm">
-        Click 'Run Tests' to check your code.
+        {t("python.exercise.status")}
       </p>
     </div>
   </ExerciseLayout>
 
   <Fragment slot="footer">
     <div class="mt-8 flex justify-between" id="lesson-navigation">
-      <Button variant="outline" href={`/python/lessons/${topic}`}>
+      <Button variant="outline" href={`/${lang}/python/lessons/${topic}`}>
         <Icon name="arrow-left" />
-        Back to Lesson
+        {t("python.exercise.backToLesson")}
       </Button>
 
       {
         nextTopic ? (
-          <Button href={`/python/lessons/${nextTopic}`}>
-            Next Lesson
+          <Button href={`/${lang}/python/lessons/${nextTopic}`}>
+            {t("python.exercise.nextLesson")}
             <Icon name="arrow-right" />
           </Button>
         ) : null

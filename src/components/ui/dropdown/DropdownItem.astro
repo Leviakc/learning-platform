@@ -1,0 +1,21 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  class?: string;
+  href?: string;
+}
+
+const { class: className = "", href, ...props } = Astro.props;
+
+const Tag = href ? "a" : "button";
+---
+
+<Tag
+  href={href}
+  class={`group flex w-full items-center px-4 py-2 text-sm text-foreground hover:bg-border hover:text-accent-foreground cursor-pointer ${className}`}
+  role="menuitem"
+  {...props}
+>
+  <slot />
+</Tag>

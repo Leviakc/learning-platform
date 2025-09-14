@@ -4,16 +4,14 @@ import "@/styles/global.css";
 interface Props {
   title: string;
   description?: string;
+  lang?: string;
 }
 
-const {
-  title = "Binary Learns",
-  description = "Learn Python and track your progress.",
-} = Astro.props;
+const { lang = "es", title = "Binary Learns", description = "" } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />

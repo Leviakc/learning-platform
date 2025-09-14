@@ -8,40 +8,50 @@ import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
 import LessonCard from "@/components/astro/LessonCard.astro";
 import HeaderTitle from "@/components/astro/HeaderTitle.astro";
-import { orderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
+import LanguageSwitcher from "@/components/astro/LanguageSwitcher.astro";
+import { getOrderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
+import { useTranslations } from "@/i18n/utils";
+import type { Language } from "@/types/language";
+import { createLanguageParams } from "@/i18n/constants";
+
+export async function getStaticPaths() {
+  return createLanguageParams();
+}
+
+const lang = Astro.params.lang as Language;
+const t = useTranslations(lang);
+const pythonLessons = await getOrderedPythonLessons(lang);
 ---
 
 <Layout title="Binary Learns - Learn Python">
   <main class="container mx-auto p-4 md:p-8">
     <div class="mb-4 flex items-center justify-between">
-      <Button variant="outline" href="/">
+      <Button variant="outline" href={`/${lang}`}>
         <Icon name="arrow-left" class={"mr-2"} />
-        Back to Home
+        {t("python.button.back")}
       </Button>
-      <div class="absolute top-4 right-4"></div>
+      <LanguageSwitcher currentLang={lang} />
     </div>
 
     <header class="mb-12 text-center">
       <HeaderTitle
-        title="Binary Learns"
-        subtitle="Learn Python and track your progress"
+        title={t("python.header.title")}
+        subtitle={t("python.header.subtitle")}
       />
     </header>
 
     <Card class="bg-card/80 mb-8 backdrop-blur-sm">
       <CardHeader>
         <CardTitle class="font-headline text-2xl"
-          >Welcome to Binary Learns!</CardTitle
+          >{t("python.welcomeCard.title")}</CardTitle
         >
-        <CardDescription
-          >Select a lesson below to start learning Python.</CardDescription
-        >
+        <CardDescription>{t("python.welcomeCard.description")}</CardDescription>
       </CardHeader>
     </Card>
 
     <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {
-        orderedPythonLessons.map((pythonLesson) => {
+        pythonLessons.map((pythonLesson) => {
           if (pythonLesson.data.type !== "lesson") return null;
 
           return <LessonCard id={pythonLesson.id} {...pythonLesson.data} />;

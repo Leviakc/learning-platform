@@ -1,21 +1,26 @@
 ---
 import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
+import { useTranslations } from "@/i18n/utils";
+import LanguageSwitcher from "@/components/astro/LanguageSwitcher.astro";
+import type { Language } from "@/types/language";
 interface Props {
   title: string;
   description: string;
+  lang: string;
 }
-const { title, description } = Astro.props as Props;
+const { title, description, lang = "es" } = Astro.props as Props;
+const t = useTranslations(lang as Language);
 ---
 
 <header class="mb-6">
   <div class="mb-2 flex items-center justify-between">
-    <Button variant="outline" href="/python">
+    <Button variant="outline" href=`/${lang}/python`>
       <Icon name="arrow-left" class={"mr-2"} />
-      Back to All Lessons
+      {t("python.exercise.backToLesson")}
     </Button>
 
-    <!-- TODO: Completion status - will be managed by client component -->
+    <LanguageSwitcher currentLang={lang as Language} />
   </div>
 
   <div class="mt-4">

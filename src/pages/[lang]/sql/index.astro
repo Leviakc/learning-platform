@@ -1,0 +1,57 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import Button from "@/components/ui/button/Button.astro";
+import { Icon } from "astro-icon/components";
+import CountDown from "@/components/astro/CountDown.astro";
+import LanguageSwitcher from "@/components/astro/LanguageSwitcher.astro";
+import { useTranslations } from "@/i18n/utils";
+import type { Language } from "@/types/language";
+import { createLanguageParams } from "@/i18n/constants";
+
+export async function getStaticPaths() {
+  return createLanguageParams();
+}
+
+const lang = Astro.params.lang as Language;
+const t = useTranslations(lang);
+---
+
+<Layout
+  lang={lang}
+  title="SQL Course Coming Soon"
+  title={t("sql.meta.title")}
+  description={t("sql.meta.description")}
+>
+  <main
+    class="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 md:p-8"
+  >
+    <div
+      class="absolute top-4 flex w-9/10 items-center justify-between md:top-8 2xl:w-7xl"
+    >
+      <Button variant="outline" href={`/${lang}`}>
+        <Icon name="arrow-left" class={"mr-2"} />
+        {t("sql.button.back")}
+      </Button>
+      <LanguageSwitcher currentLang={lang} />
+    </div>
+
+    <div class="text-center">
+      <Icon name="construction" class="text-primary mx-auto mb-8 h-24 w-24" />
+      <h1 class="font-headline text-primary mb-4 text-5xl font-bold">
+        {t("sql.header.title")}
+      </h1>
+      <p class="text-muted-foreground mb-8 text-xl">
+        {t("sql.header.subtitle")}
+      </p>
+
+      <CountDown
+        targetDate="2025-10-10T00:00:00Z"
+        title={t("sql.countdown.title")}
+        days={t("sql.countdown.days")}
+        hours={t("sql.countdown.hours")}
+        minutes={t("sql.countdown.minutes")}
+        seconds={t("sql.countdown.seconds")}
+      />
+    </div>
+  </main>
+</Layout>

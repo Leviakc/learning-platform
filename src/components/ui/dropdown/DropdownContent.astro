@@ -1,0 +1,27 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"div"> {
+  class?: string;
+  align?: "start" | "end";
+}
+
+const { class: className = "", align = "start", ...props } = Astro.props;
+
+const alignClasses = {
+  start: "left-0",
+  end: "right-0",
+};
+---
+
+<div
+  class={`absolute z-10 mt-2 w-42 origin-top-right rounded-md bg-background shadow-lg ring-1 ring-border ring-opacity-5 focus:outline-none hidden ${alignClasses[align]} ${className}`}
+  role="menu"
+  aria-orientation="vertical"
+  data-dropdown-content
+  {...props}
+>
+  <div class="py-1" role="none">
+    <slot />
+  </div>
+</div>

@@ -5,15 +5,20 @@ import { Tab } from "@/components/solid/Tab.tsx";
 import { ClientRouter } from "astro:transitions";
 import "@/styles/global.css";
 
+import { useTranslations } from "@/i18n/utils";
+import type { Language } from "@/types/language";
+
 interface Props {
   title: string;
   description: string;
+  lang: string;
 }
-const { title, description } = Astro.props as Props;
+const { title, description, lang } = Astro.props as Props;
+const t = useTranslations(lang as Language);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -38,10 +43,14 @@ const { title, description } = Astro.props as Props;
   </head>
   <body class="bg-background text-foreground font-body antialiased">
     <main class="container mx-auto max-w-6xl p-4 md:p-8">
-      <HeaderLesson title={title} description={description} />
+      <HeaderLesson title={title} description={description} lang={lang} />
       <Card>
         <div class="p-0">
-          <Tab client:only="solid-js" />
+          <Tab
+            client:only="solid-js"
+            theory={t("python.tabs.theory")}
+            exercise={t("python.tabs.exercise")}
+          />
 
           <div class="p-1 md:p-6">
             <div class="prose dark:prose-invert max-w-none">

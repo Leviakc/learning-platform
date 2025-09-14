@@ -9,14 +9,16 @@ import Button from "../ui/button/Button.astro";
 import Badge from "../ui/badge/Badge.astro";
 import { Icon } from "astro-icon/components";
 import type { Lesson } from "@/types/lesson";
+import type { Language } from "@/types/language";
 
 export interface Props extends Lesson {
   id: string;
   isCompleted?: boolean;
 }
+const lang = Astro.params.lang as Language;
 
 const { isCompleted = false, ...lesson } = Astro.props;
-const id = lesson.id.split("/")[0];
+const id = lesson.id.split("/")[1];
 const difficulty = lesson.difficulty;
 
 const difficultyIcon: Record<typeof difficulty, string> = {
@@ -30,7 +32,7 @@ const cardClasses = isCompleted
   : "flex flex-col transition-all duration-300 transform hover:-translate-y-1 w-full bg-card";
 ---
 
-<a href={`/python/lessons/${id}`} class="flex">
+<a href={`/${lang}/python/lessons/${id}`} class="flex">
   <Card class={cardClasses}>
     <CardHeader>
       <div class="flex items-start justify-between">

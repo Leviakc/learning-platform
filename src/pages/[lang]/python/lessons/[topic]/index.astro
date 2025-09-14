@@ -9,6 +9,7 @@ import type { Lesson } from "@/types/lesson";
 import { getOrderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
 import { useTranslations } from "@/i18n/utils";
 import type { Language } from "@/types/language";
+import { SUPPORTED_LANGUAGES } from "@/i18n/constants";
 type Paths = {
   params: {
     lang: string;
@@ -22,9 +23,8 @@ type Paths = {
 
 export async function getStaticPaths() {
   const paths: Paths[] = [];
-  const languages = ["en", "es"];
 
-  for (const lang of languages) {
+  for (const lang of SUPPORTED_LANGUAGES) {
     const lessons = await getOrderedPythonLessons(lang);
     const topics = [
       ...new Set(lessons.map((lesson) => lesson.id.split("/")[1])),

@@ -4,6 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import solidJs from "@astrojs/solid-js";
 import icon from "astro-icon";
 import expressiveCode from "astro-expressive-code";
+import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE } from "./src/i18n/constants.ts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -12,8 +13,8 @@ export default defineConfig({
     plugins: [tailwindcss()],
   },
   i18n: {
-    defaultLocale: "es",
-    locales: ["es", "en"],
+    defaultLocale: DEFAULT_LANGUAGE,
+    locales: [...SUPPORTED_LANGUAGES],
     routing: {
       prefixDefaultLocale: true,
     },

@@ -4,13 +4,14 @@ import enPython from "./en/python";
 import esPython from "./es/python";
 import enSql from "./en/sql";
 import esSql from "./es/sql";
+import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, type SupportedLanguage } from "./constants";
 
-export const languages = {
+export const languages: Record<SupportedLanguage, string> = {
   en: "English",
   es: "Español",
 };
 
-export const defaultLang = "en";
+export const defaultLang = DEFAULT_LANGUAGE;
 
 export const ui = {
   en: {

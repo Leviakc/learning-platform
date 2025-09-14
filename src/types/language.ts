@@ -1,3 +1,3 @@
-import type { languages } from "@/i18n/ui";
+import type { SupportedLanguage } from "@/i18n/constants";
 
-export type Language = keyof typeof languages;
+export type Language = SupportedLanguage;

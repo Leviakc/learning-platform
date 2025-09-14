@@ -1,0 +1,130 @@
+---
+import { getEntry } from "astro:content";
+import LessonLayout from "@/layouts/LessonLayout.astro";
+import { Icon } from "astro-icon/components";
+import Button from "@/components/ui/button/Button.astro";
+import type { Lesson } from "@/types/lesson";
+import type { Exercise } from "@/types/exercise";
+import { getOrderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
+import ExerciseLayout from "@/layouts/ExerciseLayout.astro";
+import { MonacoEditor } from "@/components/solid/MonacoEditor";
+import { TestRunner } from "@/components/solid/TestRunner";
+import { useTranslations } from "@/i18n/utils";
+import type { Language } from "@/types/language";
+
+type Paths = {
+  params: {
+    lang: string;
+    topic: string;
+  };
+  props: {
+    topic: string;
+    nextTopic: string | null;
+  };
+};
+
+export async function getStaticPaths() {
+  const paths: Paths[] = [];
+  const languages = ["en", "es"];
+
+  for (const lang of languages) {
+    const lessons = await getOrderedPythonLessons(lang);
+    const topics = [
+      ...new Set(lessons.map((lesson) => lesson.id.split("/")[1])),
+    ];
+
+    topics.forEach((topic, index) => {
+      const nextTopic = index < topics.length - 1 ? topics[index + 1] : null;
+      paths.push({
+        params: { lang, topic },
+        props: { topic, nextTopic },
+      });
+    });
+  }
+
+  return paths;
+}
+
+const { topic, nextTopic } = Astro.props;
+const { lang } = Astro.params;
+const t = useTranslations(lang as Language);
+
+const exercise = await getEntry("python", `${lang}/${topic}/exercise`);
+const lesson = await getEntry("python", `${lang}/${topic}/lesson`);
+
+const data = lesson?.data as Lesson;
+const exerciseData = exercise?.data as Exercise;
+
+const initialEditorCode = exercise?.body
+  ? exercise.body
+      .split("\n")
+      .filter((line) => line.trim() !== "```python" && line.trim() !== "```")
+      .join("\n")
+  : "";
+---
+
+<LessonLayout title={data.title} description={data.description} lang={lang}>
+  <div data-code={initialEditorCode}></div>
+
+  <ExerciseLayout
+    title={exerciseData.title || t("python.exercise.test")}
+    description={t("python.exercise.description")}
+  >
+    <button
+      class="border-input bg-background hover:bg-accent/70 hover:text-accent-foreground inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md border px-3 text-sm font-medium whitespace-nowrap"
+      slot="reset-button"
+      id="reset-button"
+    >
+      <Icon name="refresh-ccw" />
+      {t("python.exercise.reset")}
+    </button>
+
+    <button
+      class="bg-primary text-primary-foreground hover:bg-primary/80 inline-flex h-9 cursor-pointer items-center justify-center gap-2 rounded-md px-3 text-sm font-medium whitespace-nowrap"
+      id="run-tests-button"
+      slot="run-button"
+    >
+      <Icon name="play" class="mr-4" />
+      {t("python.exercise.runTests")}
+    </button>
+
+    <MonacoEditor
+      client:only="solid-js"
+      initialCode={initialEditorCode}
+      slot="code-editor"
+      language="python"
+    />
+
+    <!-- Test Results -->
+    <TestRunner
+      client:only="solid-js"
+      tests={exerciseData.tests || []}
+      runButtonId="run-tests-button"
+      slot="test-results"
+    />
+
+    <div slot="status" class="text-center" id="exercise-status">
+      <p class="text-muted-foreground text-sm">
+        {t("python.exercise.status")}
+      </p>
+    </div>
+  </ExerciseLayout>
+
+  <Fragment slot="footer">
+    <div class="mt-8 flex justify-between" id="lesson-navigation">
+      <Button variant="outline" href={`/${lang}/python/lessons/${topic}`}>
+        <Icon name="arrow-left" />
+        {t("python.exercise.backToLesson")}
+      </Button>
+
+      {
+        nextTopic ? (
+          <Button href={`/${lang}/python/lessons/${nextTopic}`}>
+            {t("python.exercise.nextLesson")}
+            <Icon name="arrow-right" />
+          </Button>
+        ) : null
+      }
+    </div>
+  </Fragment>
+</LessonLayout>

@@ -1,10 +1,14 @@
 ---
 interface Props {
   targetDate: string | Date;
-  title?: string;
+  title: string;
+  days: string;
+  hours: string;
+  minutes: string;
+  seconds: string;
 }
 
-const { targetDate, title } = Astro.props;
+const { targetDate, title, days, hours, minutes, seconds } = Astro.props;
 const LAUNCH_DATE = new Date(targetDate).getTime();
 ---
 
@@ -23,7 +27,7 @@ const LAUNCH_DATE = new Date(targetDate).getTime();
         00
       </span>
       <span class="text-muted-foreground text-sm font-medium sm:text-base"
-        >Days</span
+        >{days}</span
       >
     </div>
 
@@ -35,7 +39,7 @@ const LAUNCH_DATE = new Date(targetDate).getTime();
         00
       </span>
       <span class="text-muted-foreground text-sm font-medium sm:text-base"
-        >Hours</span
+        >{hours}</span
       >
     </div>
 
@@ -47,7 +51,7 @@ const LAUNCH_DATE = new Date(targetDate).getTime();
         00
       </span>
       <span class="text-muted-foreground text-sm font-medium sm:text-base"
-        >Minutes</span
+        >{minutes}</span
       >
     </div>
 
@@ -59,7 +63,7 @@ const LAUNCH_DATE = new Date(targetDate).getTime();
         00
       </span>
       <span class="text-muted-foreground text-sm font-medium sm:text-base"
-        >Seconds</span
+        >{seconds}</span
       >
     </div>
   </div>

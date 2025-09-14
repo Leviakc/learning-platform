@@ -67,8 +67,7 @@ Tenemos una emocionante hoja de ruta de funcionalidades para mejorar la platafor
 - [ ] **Soporte para PWA:** Convertir la aplicación en una Progressive Web App para mejores capacidades offline y rendimiento.
 - [ ] **Soporte para SQL:** Añadir una ruta de aprendizaje completa para SQL, desde consultas básicas hasta temas avanzados.
 - [ ] **Mejoras de UI/UX:** Mejorar continuamente la interfaz de usuario y la experiencia.
-- [ ] **Mejoras en performance**: Mejorar los tiempos de carga y la eficiencia
-      del editor.
+- [ ] **Mejoras en performance**: Mejorar los tiempos de carga y la eficiencia del editor.
 
 Para un desglose detallado de las próximas lecciones, por favor vea nuestra [Ruta de Lecciones](ROADMAP.md).
 

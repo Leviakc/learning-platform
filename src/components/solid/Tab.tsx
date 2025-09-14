@@ -1,4 +1,9 @@
-export const Tab = () => {
+interface Props {
+  theory: string;
+  exercise: string;
+}
+
+export const Tab = (props: Props) => {
   const path = window.location.pathname;
   const lastSegment = path.split("/").pop();
   const theoryLink =
@@ -16,7 +21,7 @@ export const Tab = () => {
             : "bg-background text-foreground pointer-events-none shadow-sm"
         }`}
       >
-        Theory & Concepts
+        {props.theory}
       </a>
       <a
         href={exerciseLink}
@@ -29,7 +34,7 @@ export const Tab = () => {
             : "hover:bg-primary/80 hover:text-background"
         }`}
       >
-        Coding Exercise
+        {props.exercise}
       </a>
     </div>
   );

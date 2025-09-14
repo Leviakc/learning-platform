@@ -1,0 +1,91 @@
+---
+import { render } from "astro:content";
+import { getEntry } from "astro:content";
+import LessonLayout from "@/layouts/LessonLayout.astro";
+import { Icon } from "astro-icon/components";
+import Button from "@/components/ui/button/Button.astro";
+import { Quiz } from "@/components/solid/Quiz";
+import type { Lesson } from "@/types/lesson";
+import { getOrderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
+import { useTranslations } from "@/i18n/utils";
+import type { Language } from "@/types/language";
+type Paths = {
+  params: {
+    lang: string;
+    topic: string;
+  };
+  props: {
+    topic: string;
+    prevTopic: string | null;
+  };
+};
+
+export async function getStaticPaths() {
+  const paths: Paths[] = [];
+  const languages = ["en", "es"];
+
+  for (const lang of languages) {
+    const lessons = await getOrderedPythonLessons(lang);
+    const topics = [
+      ...new Set(lessons.map((lesson) => lesson.id.split("/")[1])),
+    ];
+
+    topics.forEach((topic, index) => {
+      const prevTopic = index > 0 ? topics[index - 1] : null;
+      paths.push({
+        params: { lang, topic },
+        props: { topic, prevTopic },
+      });
+    });
+  }
+
+  return paths;
+}
+
+const { topic, prevTopic } = Astro.props;
+const { lang } = Astro.params;
+const t = useTranslations(lang as Language);
+
+const lesson = await getEntry("python", `${lang}/${topic}/lesson`);
+
+const { Content } = lesson?.data.type === "lesson" ? await render(lesson) : {};
+const data = lesson?.data as Lesson;
+---
+
+<LessonLayout title={data.title} description={data.description} lang={lang}>
+  {Content && <Content />}
+  {
+    Array.isArray(data?.quiz) && data.quiz.length > 0 && (
+      <Fragment slot="quiz">
+        <Quiz client:only="solid-js" quiz={data.quiz} />
+      </Fragment>
+    )
+  }
+  <Fragment slot="footer">
+    <div class="mt-8 flex justify-between" id="lesson-navigation">
+      {
+        prevTopic ? (
+          <Button
+            variant="outline"
+            href={`/${lang}/python/lessons/${prevTopic}`}
+          >
+            <Icon name="arrow-left" />
+            {t("python.lessons.previous")}
+          </Button>
+        ) : (
+          <div />
+        )
+      }
+
+      <!-- TODO: Check if it's possible to do this withouth full reload -->
+      <Button
+        href={`/${lang}/python/lessons/${topic}/exercise`}
+        data-astro-reload
+        data-astro-prefetch
+      >
+        {t("python.lessons.goToExercise")}
+        <Icon name="arrow-right" />
+      </Button>
+    </div>
+  </Fragment>
+</LessonLayout>

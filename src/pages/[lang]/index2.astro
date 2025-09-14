@@ -1,0 +1,61 @@
+---
+import { Icon } from "astro-icon/components";
+import Layout from "@/layouts/Layout.astro";
+import Card from "@/components/ui/card/Card.astro";
+import CardHeader from "@/components/ui/card/CardHeader.astro";
+import CardTitle from "@/components/ui/card/CardTitle.astro";
+import CardDescription from "@/components/ui/card/CardDescription.astro";
+import HeaderTitle from "@/components/astro/HeaderTitle.astro";
+import binaryBrain from "@/assets/images/binary-logo.png";
+---
+
+<Layout title="Binary Learns - Home">
+  <main
+    class="container mx-auto flex h-dvh flex-col items-center gap-16 p-4 md:min-h-screen md:justify-center md:gap-1 md:p-8"
+  >
+    <div class="absolute top-4 right-4">
+      <!-- <ModeToggle /> -->
+    </div>
+    <header class="mt-10 text-center md:mt-0 md:mb-12">
+      <HeaderTitle
+        title="Binary Learns"
+        subtitle="Choose your learning path"
+        src={binaryBrain}
+      />
+    </header>
+
+    <div class="grid w-full max-w-4xl gap-8 md:grid-cols-2">
+      <a href="/python" class="block">
+        <Card
+          class="h-full transform cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <CardHeader class="text-center">
+            <div class="mb-4 flex justify-center">
+              <Icon name="code" class={"w-12 h-12 text-accent"} />
+            </div>
+            <CardTitle class="font-headline text-3xl"> Learn Python </CardTitle>
+            <CardDescription class="text-md">
+              Master Python from the ground up with our interactive lessons and
+              exercises.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </a>
+      <a href="/sql" class="block">
+        <Card
+          class="h-full transform cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <CardHeader class="text-center">
+            <div class="mb-4 flex justify-center">
+              <Icon name="database" class={"w-12 h-12 text-accent"} />
+            </div>
+            <CardTitle class="font-headline text-3xl">Learn SQL</CardTitle>
+            <CardDescription class="text-base">
+              Unlock the power of databases. Coming soon!
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </a>
+    </div>
+  </main>
+</Layout>

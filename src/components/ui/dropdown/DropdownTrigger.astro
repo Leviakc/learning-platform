@@ -1,0 +1,20 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+interface Props extends HTMLAttributes<"button"> {
+  class?: string;
+}
+
+const { class: className = "", ...props } = Astro.props;
+---
+
+<button
+  type="button"
+  class={`inline-flex w-full justify-center gap-x-1.5 rounded-md bg-background px-3 py-2 text-sm font-semibold text-foreground shadow-sm ring-1 ring-inset ring-border hover:bg-muted ${className}`}
+  aria-expanded="false"
+  aria-haspopup="true"
+  data-dropdown-trigger
+  {...props}
+>
+  <slot />
+</button>

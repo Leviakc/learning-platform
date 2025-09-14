@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
 import CountDown from "@/components/astro/CountDown.astro";
+import LanguageSwitcher from "@/components/astro/LanguageSwitcher.astro";
 import { useTranslations } from "@/i18n/utils";
 import type { Language } from "@/types/language";
 import { createLanguageParams } from "@/i18n/constants";
@@ -24,11 +25,14 @@ const t = useTranslations(lang);
   <main
     class="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 md:p-8"
   >
-    <div class="absolute top-4 left-4">
+    <div
+      class="absolute top-4 flex w-9/10 items-center justify-between md:top-8 2xl:w-7xl"
+    >
       <Button variant="outline" href={`/${lang}`}>
         <Icon name="arrow-left" class={"mr-2"} />
         {t("sql.button.back")}
       </Button>
+      <LanguageSwitcher currentLang={lang} />
     </div>
 
     <div class="text-center">

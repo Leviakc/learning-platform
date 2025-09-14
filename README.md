@@ -61,7 +61,7 @@ Tenemos una emocionante hoja de ruta de funcionalidades para mejorar la platafor
 
 - [x] **Snippets en el Editor:** Añadir snippets de código personalizados al editor para patrones comunes (ej. bucles `for`, `funciones`).
 - [ ] **Mejorar primeras lecciones:** Hacer las primeras lecciones más amigables para principiantes y con mejor contenido.
-- [ ] **i18n:** Internacionalización completa para soportar múltiples idiomas en la interfaz de usuario.
+- [x] **i18n:** Internacionalización completa para soportar múltiples idiomas en la interfaz de usuario.
 - [ ] **Almacenamiento de Progreso:** Implementar cuentas de usuario para guardar el progreso y registrar las lecciones completadas.
 - [ ] **Tour Interactivo de la Página (con Driver.js):** Implementar tours guiados para introducir a los usuarios a las funcionalidades de la plataforma.
 - [ ] **Soporte para PWA:** Convertir la aplicación en una Progressive Web App para mejores capacidades offline y rendimiento.

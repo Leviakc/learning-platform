@@ -1,0 +1,128 @@
+---
+import { Icon } from "astro-icon/components";
+import Dropdown from "@/components/ui/dropdown/Dropdown.astro";
+import DropdownTrigger from "@/components/ui/dropdown/DropdownTrigger.astro";
+import DropdownContent from "@/components/ui/dropdown/DropdownContent.astro";
+import DropdownItem from "@/components/ui/dropdown/DropdownItem.astro";
+import { LANGUAGE_METADATA, type SupportedLanguage } from "@/i18n/constants";
+
+interface Props {
+  currentLang: SupportedLanguage;
+  class?: string;
+}
+
+const { currentLang, class: className = "" } = Astro.props;
+const currentPath = Astro.url.pathname.replace(/^\/(es|en)/, "") || "/";
+
+const languages = Object.entries(LANGUAGE_METADATA).map(([code, meta]) => ({
+  code: code as SupportedLanguage,
+  ...meta,
+}));
+---
+
+<div class={`language-switcher ${className}`}>
+  <Dropdown>
+    <DropdownTrigger class="min-w-fit items-center px-3 py-2">
+      <span class="text-lg">{LANGUAGE_METADATA[currentLang].flag}</span>
+      <span class="ml-2 text-sm font-medium"
+        >{LANGUAGE_METADATA[currentLang].name}</span
+      >
+      <Icon name="arrow-down" class="ml-2 h-4 w-4" />
+    </DropdownTrigger>
+
+    <DropdownContent align="end">
+      {
+        languages.map((lang) => (
+          <DropdownItem
+            class={
+              currentLang === lang.code ? "bg-muted text-accent-foreground" : ""
+            }
+            data-lang={lang.code}
+            data-current-path={currentPath}
+          >
+            <span class="mr-2">{lang.flag}</span>
+            <span class="flex-1">{lang.name}</span>
+            {currentLang === lang.code && (
+              <Icon name="check" class="ml-2 h-4 w-4" />
+            )}
+          </DropdownItem>
+        ))
+      }
+    </DropdownContent>
+  </Dropdown>
+</div>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    // Toggle dropdown functionality
+    const dropdowns = document.querySelectorAll("[data-dropdown-trigger]");
+
+    dropdowns.forEach((trigger) => {
+      const dropdown = trigger
+        .closest(".language-switcher")
+        ?.querySelector("[data-dropdown-content]");
+
+      if (!dropdown) return;
+
+      trigger.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        document
+          .querySelectorAll("[data-dropdown-content]")
+          .forEach((other) => {
+            if (other !== dropdown) {
+              other.classList.add("hidden");
+            }
+          });
+
+        dropdown.classList.toggle("hidden");
+      });
+    });
+
+    const langItems = document.querySelectorAll("[data-lang]");
+
+    langItems.forEach((item) => {
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        const selectedLang = item.getAttribute("data-lang");
+        const currentPath = item.getAttribute("data-current-path");
+
+        if (selectedLang && currentPath) {
+          const newPath = currentPath === "/" ? "" : currentPath;
+          const newUrl = `/${selectedLang}${newPath}`;
+          window.location.href = newUrl;
+        }
+      });
+    });
+
+    document.addEventListener("click", (e) => {
+      const target = e.target as Element;
+      if (!target.closest(".language-switcher")) {
+        document
+          .querySelectorAll("[data-dropdown-content]")
+          .forEach((dropdown) => {
+            dropdown.classList.add("hidden");
+          });
+      }
+    });
+  });
+</script>
+
+<style>
+  .language-switcher [data-dropdown-content] {
+    transition:
+      opacity 0.2s ease-in-out,
+      transform 0.2s ease-in-out;
+  }
+
+  .language-switcher [data-dropdown-content]:not(.hidden) {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .language-switcher [data-dropdown-content].hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+</style>

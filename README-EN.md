@@ -59,7 +59,7 @@ We have an exciting roadmap of features to enhance the Binary Learns platform. O
 
 - [x] **Editor Snippets:** Add custom code snippets to the editor for common patterns (e.g., `for` loops, `functions`).
 - [ ] **Improve First Lessons:** Make the first lessons more engaging and beginner-friendly with more useful content and examples.
-- [ ] **i18n:** Full internationalization to support multiple languages in the UI.
+- [x] **i18n:** Full internationalization to support multiple languages in the UI.
 - [ ] **Progress Storage:** Implementing user accounts to save progress and track completed lessons.
 - [ ] **PWA Support:** Making the application a Progressive Web App for better offline capabilities and performance.
 - [ ] **SQL Support:** Adding a full learning path for SQL, from basic queries to advanced topics.

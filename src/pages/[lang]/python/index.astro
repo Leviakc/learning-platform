@@ -8,6 +8,7 @@ import Button from "@/components/ui/button/Button.astro";
 import { Icon } from "astro-icon/components";
 import LessonCard from "@/components/astro/LessonCard.astro";
 import HeaderTitle from "@/components/astro/HeaderTitle.astro";
+import LanguageSwitcher from "@/components/astro/LanguageSwitcher.astro";
 import { getOrderedPythonLessons } from "@/utils/getOrderPythonLessons.ts";
 import { useTranslations } from "@/i18n/utils";
 import type { Language } from "@/types/language";
@@ -29,7 +30,7 @@ const pythonLessons = await getOrderedPythonLessons(lang);
         <Icon name="arrow-left" class={"mr-2"} />
         {t("python.button.back")}
       </Button>
-      <div class="absolute top-4 right-4"></div>
+      <LanguageSwitcher currentLang={lang} />
     </div>
 
     <header class="mb-12 text-center">

@@ -32,6 +32,13 @@ Ignoran lineas de código y hacen que no se ejecuten
 # Este es un comentario para una sola línea
 
 `print("Hola Mundo")`
+<br/>
+<br/>
+
+<code frame="code" title="python.py">
+print("Este es otro tipo de comentario")
+x = 12
+</code>
 
 ```python frame="code" title="python.py"
 '''
@@ -40,6 +47,13 @@ Este es un comentario largo que puede abarcar grandes partes de nuestro codigo
 '''
 print("Este es otro tipo de comentario")
 x = 12
+
 ```
 
 Este es otro tipo de comentario
+
+```
+# Hola
+```
+
+<h1 class="text-red-500 text-6xl">Esta es una prueba</h1>

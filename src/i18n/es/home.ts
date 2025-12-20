@@ -10,4 +10,7 @@ export default {
   "home.sqlCard.title": "Aprende SQL",
   "home.sqlCard.description":
     "Desbloquea el poder de las bases de datos. ¡Próximamente!",
+  "home.dsaCard.title": "Estructuras de Datos y Algoritmos",
+  "home.dsaCard.description":
+    "Domina los fundamentos de la informática. ¡Próximamente!",
 };

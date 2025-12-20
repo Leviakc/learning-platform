@@ -18,9 +18,8 @@ const t = useTranslations(lang);
 
 <Layout
   lang={lang}
-  title="SQL Course Coming Soon"
-  title={t("sql.meta.title")}
-  description={t("sql.meta.description")}
+  title={t("dsa.meta.title")}
+  description={t("dsa.meta.description")}
 >
   <main
     class="container mx-auto flex min-h-screen flex-col items-center justify-center p-4 md:p-8"
@@ -30,7 +29,7 @@ const t = useTranslations(lang);
     >
       <Button variant="outline" href={`/${lang}`}>
         <Icon name="arrow-left" class={"mr-2"} />
-        {t("sql.button.back")}
+        {t("dsa.button.back")}
       </Button>
       <LanguageSwitcher currentLang={lang} />
     </div>
@@ -38,19 +37,19 @@ const t = useTranslations(lang);
     <div class="text-center">
       <Icon name="construction" class="text-primary mx-auto mb-8 h-24 w-24" />
       <h1 class="font-headline text-primary mb-4 text-5xl font-bold">
-        {t("sql.header.title")}
+        {t("dsa.header.title")}
       </h1>
       <p class="text-muted-foreground mb-8 text-xl">
-        {t("sql.header.subtitle")}
+        {t("dsa.header.subtitle")}
       </p>
 
       <CountDown
-        targetDate="2026-01-31T00:00:00Z"
-        title={t("sql.countdown.title")}
-        days={t("sql.countdown.days")}
-        hours={t("sql.countdown.hours")}
-        minutes={t("sql.countdown.minutes")}
-        seconds={t("sql.countdown.seconds")}
+        targetDate="2026-02-28T00:00:00Z"
+        title={t("dsa.countdown.title")}
+        days={t("dsa.countdown.days")}
+        hours={t("dsa.countdown.hours")}
+        minutes={t("dsa.countdown.minutes")}
+        seconds={t("dsa.countdown.seconds")}
       />
     </div>
   </main>

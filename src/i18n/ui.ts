@@ -4,7 +4,9 @@ import enPython from "./en/python";
 import esPython from "./es/python";
 import enSql from "./en/sql";
 import esSql from "./es/sql";
-import { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE, type SupportedLanguage } from "./constants";
+import esDsa from "./es/dsa.ts"
+import enDsa from "./en/dsa.ts"
+import { DEFAULT_LANGUAGE, type SupportedLanguage } from "./constants";
 
 export const languages: Record<SupportedLanguage, string> = {
   en: "English",
@@ -18,10 +20,12 @@ export const ui = {
     ...enHome,
     ...enPython,
     ...enSql,
+    ...enDsa,
   },
   es: {
     ...esHome,
     ...esPython,
     ...esSql,
+    ...esDsa
   },
 } as const;

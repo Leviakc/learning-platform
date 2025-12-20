@@ -9,4 +9,7 @@ export default {
     "Master Python from the ground up with our interactive lessons and exercises.",
   "home.sqlCard.title": "Learn SQL",
   "home.sqlCard.description": "Unlock the power of databases. Coming soon!",
+  "home.dsaCard.title": "Data Structures & Algorithms",
+  "home.dsaCard.description":
+    "Master computer science fundamentals. Coming soon!",
 };

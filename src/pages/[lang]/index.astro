@@ -39,7 +39,7 @@ const t = useTranslations(lang);
       />
     </header>
 
-    <div class="grid w-full max-w-4xl gap-8 md:grid-cols-2">
+    <div class="grid w-full max-w-6xl gap-8 md:grid-cols-2 lg:grid-cols-3">
       <a href={`/${lang}/python`} class="block">
         <Card
           class="h-full transform cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
@@ -70,6 +70,23 @@ const t = useTranslations(lang);
             >
             <CardDescription class="text-base">
               {t("home.sqlCard.description")}
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      </a>
+      <a href={`/${lang}/dsa`} class="block">
+        <Card
+          class="h-full transform cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <CardHeader class="text-center">
+            <div class="mb-4 flex justify-center">
+              <Icon name="network" class={"w-12 h-12 text-accent"} />
+            </div>
+            <CardTitle class="font-headline text-3xl"
+              >{t("home.dsaCard.title")}</CardTitle
+            >
+            <CardDescription class="text-base">
+              {t("home.dsaCard.description")}
             </CardDescription>
           </CardHeader>
         </Card>

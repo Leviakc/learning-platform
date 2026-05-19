@@ -1,19 +1,29 @@
 ---
 type: "exercise"
-title: "Variables Practice"
+title: "Variable Practice"
 tests:
-  - description: "Should print the city name"
+  - description: "Should have a comment at the top"
     type: "output_contains"
-    expectedOutput: "New York"
-  - description: "Should print the temperature"
+    expectedOutput: "" # TestRunner doesn't strictly test for comments in code yet, but we'll ask for it.
+  - description: "Variable 'my_hero' should exist"
+    type: "variable_exists"
+    variableName: "my_hero"
+  - description: "Variable 'my_hero' should be a string"
+    type: "variable_exists"
+    variableName: "my_hero"
+    expectedType: "str"
+  - description: "Should print the value of 'my_hero'"
     type: "output_contains"
-    expectedOutput: "72.5"
+    expectedOutput: "" # We can't know the hero name, but we'll check if output is not empty
 ---
 
 ```python
-# Time to practice! Your goal is to create two variables and print them.
+# 1. Write a comment below describing what this code does.
 
-# 1.  Create a variable named `city` and assign it the string value `"New York"`.
-# 2.  Create a variable named `temperature` and assign it the float value `72.5`.
-# 3.  Use the `print()` function to display the value of each variable.
+
+# 2. Create a variable named my_hero and assign it your favorite hero's name.
+
+
+# 3. Print the my_hero variable using the print() function.
+
 ```

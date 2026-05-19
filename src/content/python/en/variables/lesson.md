@@ -1,37 +1,81 @@
 ---
 type: "lesson"
-title: "Variables & Data Types"
+title: "Comments and Variables"
 order: 2
-description: "Learn the basics of storing information in Python variables and the different types of data you can use."
+description: "Learn how to store data and write notes for yourself using variables and comments."
 difficulty: "beginner"
 quiz:
-  - question: "What is the data type of the value assigned to the 'age' variable below?\n age = 30"
+  - question: "Which symbol is used to start a comment in Python?"
     options:
-      - "int"
-      - "str"
-      - "float"
-      - "bool"
-    answer: "int"
-    hint: "The value 30 is a whole number, which is represented by the 'int' data type in Python."
+      - "//"
+      - "/*"
+      - "#"
+    answer: "#"
+    hint: "It's the pound or hash symbol."
+  - question: "What is the recommended naming convention for variables in Python?"
+    options:
+      - "camelCase"
+      - "snake_case"
+      - "PascalCase"
+    answer: "snake_case"
+    hint: "Think about words separated by underscores like a crawling snake."
+  - question: "Can a variable name start with a number?"
+    options:
+      - "Yes"
+      - "No"
+    answer: "No"
+    hint: "Variable names must start with a letter or an underscore."
 ---
 
-A **variable** is like a labeled box where you can store information. You create a variable the moment you first assign a value to it.
+# Comments and Variables 📝
 
-In Python, data comes in several types:
+<br />
 
-- **String (str):** Used for text. You create them with quotes.
-  `"Hello, World!"`
-- **Integer (int):** Used for whole numbers.
-  `10`, `-5`, `123`
-- **Float (float):** Used for numbers with a decimal point.
-  `3.14`, `99.9`
+In this lesson, you'll learn two fundamental concepts that you'll use in every single program you write: **Comments** and **Variables**.
 
-Here's how you create a variable and assign a value to it:
+<br />
+
+### 1. Comments: Notes for Humans
+Programming isn't just about telling the computer what to do; it's also about explaining your logic to other people (including your future self!).
+<br />
+In Python, any text following the `#` symbol is a **comment**. Python completely ignores comments when running your code.
+
+<br />
 
 ```python
-
-name = "Alice"  # A string variable
-age = 30       # An integer variable
-
-
+# This is a comment. It's just a note for me!
+print("This will run")  # You can also put comments here
 ```
+
+<br />
+
+### 2. Variables: The Boxes of Programming
+Think of a **variable** as a box with a label on it. You can put a value inside the box and use the label to refer to that value later.
+
+<br />
+
+To create a variable, you use the **assignment operator** (`=`):
+
+<br />
+
+```python
+player_name = "Alex"
+score = 100
+```
+
+<br />
+
+Now, whenever you use `player_name`, Python knows you mean `"Alex"`.
+
+<br />
+
+### Rules for Naming Variables
+Python is picky about how you name your "boxes":
+1.  **Use letters, numbers, and underscores:** But you **cannot** start with a number.
+2.  **Case sensitivity:** `score` and `Score` are two different variables.
+3.  **Use snake_case:** In Python, the standard is to use lowercase words separated by underscores (e.g., `user_age`, `total_price`).
+4.  **Be descriptive:** Choose names that explain what the variable holds. `x = 10` is bad; `hours_worked = 10` is great!
+
+<br />
+
+Ready to try it yourself? Let's go to the exercise!

@@ -2,18 +2,28 @@
 type: "exercise"
 title: "Práctica de Variables"
 tests:
-  - description: "Debe imprimir el nombre de la ciudad"
+  - description: "Debe tener un comentario al principio"
     type: "output_contains"
-    expectedOutput: "New York"
-  - description: "Debe imprimir la temperatura"
+    expectedOutput: ""
+  - description: "La variable 'mi_heroe' debe existir"
+    type: "variable_exists"
+    variableName: "mi_heroe"
+  - description: "La variable 'mi_heroe' debe ser un texto (string)"
+    type: "variable_exists"
+    variableName: "mi_heroe"
+    expectedType: "str"
+  - description: "Debe imprimir el valor de 'mi_heroe'"
     type: "output_contains"
-    expectedOutput: "72.5"
+    expectedOutput: ""
 ---
 
 ```python
-# ¡Hora de practicar! Tu objetivo es crear dos variables e imprimirlas.
+# 1. Escribe un comentario abajo describiendo qué hace este código.
 
-# 1. Crea una variable llamada `city` y asígnale el valor de cadena de texto `"New York"`.
-# 2. Crea una variable llamada `temperature` y asígnale el valor de punto flotante `72.5`.
-# 3. Usa la función `print()` para mostrar el valor de cada variable.
+
+# 2. Crea una variable llamada mi_heroe y asígnale el nombre de tu héroe favorito.
+
+
+# 3. Imprime la variable mi_heroe usando la función print().
+
 ```
